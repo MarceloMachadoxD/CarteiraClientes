@@ -10,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 public class UserService {
 
@@ -26,4 +28,9 @@ public class UserService {
     }
 
 
+    public UserDTO findById(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        UserDTO userDTO = new UserDTO(user.get());
+        return userDTO;
+    }
 }
