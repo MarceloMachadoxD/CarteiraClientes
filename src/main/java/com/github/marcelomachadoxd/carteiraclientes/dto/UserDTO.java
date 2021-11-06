@@ -2,12 +2,8 @@ package com.github.marcelomachadoxd.carteiraclientes.dto;
 
 import com.github.marcelomachadoxd.carteiraclientes.entities.Role;
 import com.github.marcelomachadoxd.carteiraclientes.entities.User;
-import com.github.marcelomachadoxd.carteiraclientes.entities.Visita;
 
-
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class UserDTO {
