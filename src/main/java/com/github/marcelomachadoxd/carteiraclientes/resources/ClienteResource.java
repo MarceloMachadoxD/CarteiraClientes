@@ -21,6 +21,25 @@ public class ClienteResource {
 
         return ResponseEntity.ok().body(clienteDTO);
     }
+// {{host}}/clientes?margem=1&qtdQuartos=2&qtdBanheiros=1&qtdVagas=1&metragem=45&valorMaximo=150000
+    @GetMapping()
+    public ResponseEntity<Page<ClienteDTO>> findByInteresses(
+/*
+            @RequestParam(name = "margem", defaultValue = "100") Integer margem,
+*/
+            @RequestParam(name = "qtdQuartos", defaultValue = "0") Integer qtdQuartos,
+            @RequestParam(name = "qtdBanheiros", defaultValue = "0") Integer qtdBanheiros,
+            @RequestParam(name = "qtdVagas", defaultValue = "0") Integer qtdVagas,
+            @RequestParam(name = "metragem", defaultValue = "0") Integer metragem,
+            @RequestParam(name = "valorMaximo", defaultValue = "0") Integer valorMaximo,
+            Pageable pageable){
+
+        Page<ClienteDTO> clienteDTO = clienteService.findByInteresses(/*margem,*/ qtdQuartos, qtdBanheiros, qtdVagas, metragem, valorMaximo, pageable);
+
+
+
+        return ResponseEntity.ok().body(clienteDTO);
+    }
 
 
 }
