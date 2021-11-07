@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class ClienteService {
 
@@ -35,5 +37,12 @@ public class ClienteService {
 
         return clientes.map(x -> new ClienteDTO(x));
 
+    }
+
+    public ClienteDTO findById(Long id) {
+
+        Optional<Cliente> cliente = clienteRepository.findById(id);
+
+        return new ClienteDTO(cliente.get());
     }
 }

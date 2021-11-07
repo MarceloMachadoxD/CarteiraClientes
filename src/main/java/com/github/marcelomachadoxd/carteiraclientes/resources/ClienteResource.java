@@ -15,7 +15,13 @@ public class ClienteResource {
     @Autowired
     private ClienteService clienteService;
 
-    @GetMapping("/{nome}")
+    @GetMapping("/id/{id}")
+    public ResponseEntity<ClienteDTO> findById(@PathVariable Long id) {
+        ClienteDTO cliente = clienteService.findById(id);
+        return ResponseEntity.ok().body(cliente);
+    }
+
+    @GetMapping("/nome/{nome}")
     public ResponseEntity<Page<ClienteDTO>> findByNome(@PathVariable String nome, Pageable pageable){
         Page<ClienteDTO> clienteDTO = clienteService.findClienteByNome(nome, pageable);
 
