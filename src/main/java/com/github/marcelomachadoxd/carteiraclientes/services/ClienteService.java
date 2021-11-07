@@ -21,10 +21,10 @@ public class ClienteService {
     }
 
 
-    public Page<ClienteDTO> findByInteresses(/*Integer margem,*/ Integer qtdQuartos, Integer qtdBanheiros, Integer qtdVagas, Integer metragem, Integer valorMaximo, Pageable pageable) {
+    public Page<ClienteDTO> findByInteresses(Integer margem, Integer qtdQuartos, Integer qtdBanheiros, Integer qtdVagas, Integer metragem, Integer valorMaximo, Pageable pageable) {
 
         Page<Cliente> clientes = clienteRepository.findByInteresses(
-                /*margem,*/
+                margem,
                 qtdQuartos,
                 qtdBanheiros,
                 qtdVagas,
