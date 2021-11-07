@@ -14,7 +14,7 @@ public class Visita {
 
     private Instant dataVisita;
 
-    private String Obs;
+    private String obs;
 
     private Boolean satisfacao;
 
@@ -45,11 +45,11 @@ public class Visita {
     }
 
     public String getObs() {
-        return Obs;
+        return obs;
     }
 
     public void setObs(String obs) {
-        Obs = obs;
+        this.obs = obs;
     }
 
     public Boolean getSatisfacao() {
