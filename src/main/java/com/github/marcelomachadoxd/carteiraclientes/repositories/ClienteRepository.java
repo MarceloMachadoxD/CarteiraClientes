@@ -14,18 +14,14 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
     Page<Cliente> findByNome(String nome, Pageable pageable);
 
     @Query("SELECT obj FROM Cliente obj WHERE " +
-            "((obj.valorMaximo >= :valorMaximo  ) OR (obj.valorMaximo <= :valorMaximo  ))   " +
+            "((obj.valorMaximo >= :valorMaximo  ) OR (obj.valorMaximo <= :valorMaximo  ))   " + // to-do margem de erro no valor maximo
             "AND " +
-            "((obj.qtdQuartos >= :qtdQuartos  ) OR (obj.qtdQuartos <= :qtdQuartos  ) )  "+
+            "((obj.metragem >= :metragem  ) OR (obj.metragem <= :metragem  ) )  " + //to-do incluir margem de erro maior ou menor
             "AND " +
-            "((obj.qtdBanheiros >= :qtdBanheiros  ) OR (obj.qtdBanheiros <= :qtdBanheiros  ) )  " +
+            "(obj.qtdQuartos >= :qtdQuartos  )  " +
             "AND " +
-            "((obj.metragem >= :metragem  ) OR (obj.metragem <= :metragem  ) )  " +
+            "(obj.qtdBanheiros >= :qtdBanheiros  )  " +
             "AND " +
-            "((obj.valorMaximo >= :valorMaximo  ) OR (obj.valorMaximo <= :valorMaximo  ) )  " +
-            "AND " +
-            "((obj.qtdVagas >= :qtdVagas  ) OR (obj.qtdVagas <= :qtdVagas  ) )  " +
-            "")
-
-    Page<Cliente> findByInteresses( Integer qtdQuartos, Integer qtdBanheiros, Integer qtdVagas, Integer metragem, Integer valorMaximo, Pageable pageable);
+            "(obj.qtdVagas >= :qtdVagas  ) " )
+    Page<Cliente> findByInteresses(Integer qtdQuartos, Integer qtdBanheiros, Integer qtdVagas, Integer metragem, Integer valorMaximo, Pageable pageable);
 }
