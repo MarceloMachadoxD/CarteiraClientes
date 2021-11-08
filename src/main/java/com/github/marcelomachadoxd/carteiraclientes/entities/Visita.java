@@ -12,8 +12,10 @@ public class Visita {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant dataVisita;
 
+    @Column(columnDefinition = "TEXT")
     private String obs;
 
     private Boolean satisfacao;
