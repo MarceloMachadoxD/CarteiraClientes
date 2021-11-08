@@ -22,6 +22,9 @@ public class Cliente {
     private Integer metragem;
     private Integer valorMaximo;
 
+    @Column(columnDefinition = "TEXT")
+    private String obs;
+
     @OneToMany
     private List<Visita> visitas = new ArrayList<>();
 
@@ -114,6 +117,13 @@ public class Cliente {
         return visitas;
     }
 
+    public String getObs() {
+        return obs;
+    }
+
+    public void setObs(String obs) {
+        this.obs = obs;
+    }
 
     @Override
     public boolean equals(Object o) {

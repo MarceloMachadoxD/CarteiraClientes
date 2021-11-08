@@ -12,11 +12,12 @@ public class ClienteDTO {
     private Integer qtdVagas;
     private Integer metragem;
     private Integer valorMaximo;
+    private String obs;
 
     public ClienteDTO() {
     }
 
-    public ClienteDTO(Long id, String nome, String email, Integer qtdQuartos, Integer qtdBanheiros, Integer qtdVagas, Integer metragem, Integer valorMaximo) {
+    public ClienteDTO(Long id, String nome, String email, Integer qtdQuartos, Integer qtdBanheiros, Integer qtdVagas, Integer metragem, Integer valorMaximo, String obs) {
         this.id = id;
         this.nome = nome;
         this.email = email;
@@ -25,6 +26,7 @@ public class ClienteDTO {
         this.qtdVagas = qtdVagas;
         this.metragem = metragem;
         this.valorMaximo = valorMaximo;
+        this.obs = obs;
     }
 
     public ClienteDTO(Cliente cliente) {
@@ -36,6 +38,7 @@ public class ClienteDTO {
         this.qtdVagas = cliente.getQtdVagas();
         this.metragem = cliente.getMetragem();
         this.valorMaximo = cliente.getValorMaximo();
+        this.obs = cliente.getObs();
     }
 
 
@@ -101,5 +104,13 @@ public class ClienteDTO {
 
     public void setValorMaximo(Integer valorMaximo) {
         this.valorMaximo = valorMaximo;
+    }
+
+    public String getObs() {
+        return obs;
+    }
+
+    public void setObs(String obs) {
+        this.obs = obs;
     }
 }
