@@ -1,6 +1,5 @@
 package com.github.marcelomachadoxd.carteiraclientes.dto;
 
-import com.github.marcelomachadoxd.carteiraclientes.entities.Role;
 import com.github.marcelomachadoxd.carteiraclientes.entities.User;
 
 import java.util.HashSet;
@@ -12,13 +11,13 @@ public class UserDTO {
     private Long id;
     private String nome;
     private String email;
-    Set<Role> acesso = new HashSet<>();
+    Set<RoleDTO> acesso = new HashSet<>();
 
     public UserDTO() {
     }
 
 
-    public UserDTO(Long id, String nome, String email, Set<Role> acesso) {
+    public UserDTO(Long id, String nome, String email, Set<RoleDTO> acesso) {
         this.id = id;
         this.nome = nome;
         this.email = email;
@@ -29,7 +28,7 @@ public class UserDTO {
         this.id = user.getId();
         this.nome = user.getNome();
         this.email = user.getEmail();
-        this.acesso = user.getAcesso();
+        user.getAcesso().forEach(role -> this.acesso.add(new RoleDTO(role)));
     }
 
 
@@ -57,7 +56,7 @@ public class UserDTO {
         this.email = email;
     }
 
-    public Set<Role> getAcesso() {
+    public Set<RoleDTO> getAcesso() {
         return acesso;
     }
 
