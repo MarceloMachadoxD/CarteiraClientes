@@ -17,11 +17,10 @@ public class UserDTO {
     }
 
 
-    public UserDTO(Long id, String nome, String email, Set<RoleDTO> acesso) {
+    public UserDTO(Long id, String nome, String email) {
         this.id = id;
         this.nome = nome;
         this.email = email;
-        this.acesso = acesso;
     }
 
     public UserDTO(User user) {

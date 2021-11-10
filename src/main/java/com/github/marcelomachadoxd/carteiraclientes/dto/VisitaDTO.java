@@ -10,23 +10,18 @@ public class VisitaDTO {
     private Instant dataVisita;
     private String obs;
     private Boolean satisfacao;
-    private Long responsavelId;
-    private String responsavel;
-    private Long clienteId;
-    private String cliente;
+    private UserDTO responsavel = new UserDTO();
+    private ClienteDadosBasicosDTO cliente = new ClienteDadosBasicosDTO();
 
     public VisitaDTO() {
     }
 
-    public VisitaDTO(Long id, Instant dataVisita, String obs, Boolean satisfacao, Long responsavelId, String responsavel, Long clienteId, String cliente) {
+    public VisitaDTO(Long id, Instant dataVisita, String obs, Boolean satisfacao) {
         this.id = id;
         this.dataVisita = dataVisita;
         this.obs = obs;
         this.satisfacao = satisfacao;
-        this.responsavelId = responsavelId;
-        this.responsavel = responsavel;
-        this.clienteId = clienteId;
-        this.cliente = cliente;
+
     }
 
     public VisitaDTO(Visita visita) {
@@ -34,10 +29,13 @@ public class VisitaDTO {
         this.dataVisita = visita.getDataVisita();
         this.obs = visita.getObs();
         this.satisfacao = visita.getSatisfacao();
-        this.responsavelId = visita.getResponsavel().getId();
-        this.responsavel = visita.getResponsavel().getNome();
-        this.clienteId = visita.getCliente().getId();
-        this.cliente = visita.getCliente().getNome();
+
+        this.responsavel.setId(visita.getResponsavel().getId());
+        this.responsavel.setNome(visita.getResponsavel().getNome());
+        this.responsavel.setEmail(visita.getResponsavel().getEmail());
+
+        this.cliente.setNome(visita.getCliente().getNome());
+        this.cliente.setId(visita.getCliente().getId());
     }
 
     public Long getId() {
@@ -72,37 +70,19 @@ public class VisitaDTO {
         this.satisfacao = satisfacao;
     }
 
-    public Long getResponsavelId() {
-        return responsavelId;
-    }
-
-    public void setResponsavelId(Long responsavelId) {
-        this.responsavelId = responsavelId;
-    }
-
-    public String getResponsavel() {
+    public UserDTO getResponsavel() {
         return responsavel;
     }
 
-    public void setResponsavel(String responsavel) {
+    public void setResponsavel(UserDTO responsavel) {
         this.responsavel = responsavel;
     }
 
-    public Long getClienteId() {
-        return clienteId;
-    }
-
-    public void setClienteId(Long clienteId) {
-        this.clienteId = clienteId;
-    }
-
-    public String getCliente() {
+    public ClienteDadosBasicosDTO getCliente() {
         return cliente;
     }
 
-    public void setCliente(String cliente) {
+    public void setCliente(ClienteDadosBasicosDTO cliente) {
         this.cliente = cliente;
     }
-
-
 }
