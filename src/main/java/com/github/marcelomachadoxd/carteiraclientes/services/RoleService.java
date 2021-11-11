@@ -22,4 +22,11 @@ public class RoleService {
         return list.parallelStream().map(RoleDTO::new).collect(Collectors.toList());
     }
 
+    public RoleDTO insert(RoleDTO roleDTO){
+        Role role = new Role();
+        role.setNome(roleDTO.getNome());
+        roleRepository.save(role);
+        return new RoleDTO(role);
+    }
+
 }
