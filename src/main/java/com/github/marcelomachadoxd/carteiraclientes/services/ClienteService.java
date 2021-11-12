@@ -16,7 +16,7 @@ public class ClienteService {
     @Autowired
     private ClienteRepository clienteRepository;
 
-    public Page<ClienteDTO> findClienteByNome(String nome, Pageable pageable){
+    public Page<ClienteDTO> findClienteByNome(String nome, Pageable pageable) {
 
         Page<Cliente> cliente = clienteRepository.findByNome(nome, pageable);
         return cliente.map(x -> new ClienteDTO(x));
@@ -44,5 +44,19 @@ public class ClienteService {
         Optional<Cliente> cliente = clienteRepository.findById(id);
 
         return new ClienteDTO(cliente.get());
+    }
+
+    public ClienteDTO insert(ClienteDTO clienteDTO) {
+
+        Cliente cliente = new Cliente();
+        cliente.setNome(clienteDTO.getNome());
+        cliente.setEmail(clienteDTO.getEmail());
+        cliente.setMetragem(clienteDTO.getMetragem());
+        cliente.setObs(clienteDTO.getObs());
+        cliente.setQtdBanheiros(clienteDTO.getQtdBanheiros());
+        cliente.setValorMaximo(clienteDTO.getValorMaximo());
+        cliente.setQtdQuartos(clienteDTO.getQtdQuartos());
+        cliente.setQtdVagas(clienteDTO.getQtdVagas());
+        return new ClienteDTO(clienteRepository.save(cliente));
     }
 }
