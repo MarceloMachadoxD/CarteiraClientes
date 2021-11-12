@@ -24,7 +24,6 @@ public class ClienteResource {
     @GetMapping("/nome/{nome}")
     public ResponseEntity<Page<ClienteDTO>> findByNome(@PathVariable String nome, Pageable pageable){
         Page<ClienteDTO> clienteDTO = clienteService.findClienteByNome(nome, pageable);
-
         return ResponseEntity.ok().body(clienteDTO);
     }
 
@@ -37,11 +36,7 @@ public class ClienteResource {
             @RequestParam(name = "metragem", defaultValue = "0") Integer metragem,
             @RequestParam(name = "valorMaximo", defaultValue = "0") Integer valorMaximo,
             Pageable pageable){
-
         Page<ClienteDTO> clienteDTO = clienteService.findByInteresses(margem, qtdQuartos, qtdBanheiros, qtdVagas, metragem, valorMaximo, pageable);
-
-
-
         return ResponseEntity.ok().body(clienteDTO);
     }
 
