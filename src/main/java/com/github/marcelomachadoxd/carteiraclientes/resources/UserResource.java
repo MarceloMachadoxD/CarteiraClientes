@@ -19,23 +19,18 @@ public class UserResource {
     @GetMapping()
     public ResponseEntity<Page<UserDTO>> findAllPageable(Pageable pageable){
         Page<UserDTO> users = userService.findAllPageable(pageable);
-
         return ResponseEntity.ok().body(users);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> findById(@PathVariable Long id) {
         UserDTO user = userService.findById(id);
-
         return ResponseEntity.ok().body(user);
-
-
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         userService.delete(id);
-
         return ResponseEntity.noContent().build();
     }
 }
