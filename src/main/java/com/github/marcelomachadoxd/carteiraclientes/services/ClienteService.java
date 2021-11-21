@@ -59,4 +59,8 @@ public class ClienteService {
         cliente.setQtdVagas(clienteDTO.getQtdVagas());
         return new ClienteDTO(clienteRepository.save(cliente));
     }
+
+    public void delete(Long id) {
+        clienteRepository.deleteById(id);
+    }
 }

@@ -42,6 +42,12 @@ public class VisitaResource {
         return ResponseEntity.ok().body(visitaDTO);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+        visitaService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
 
 
 

@@ -40,4 +40,7 @@ public class VisitaService {
         return  visitas.map(x -> new VisitaDTO(x));
     }
 
+    public void delete(Long id)  {
+        visitaRepository.deleteById(id);
+    }
 }

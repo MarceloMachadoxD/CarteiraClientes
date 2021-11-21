@@ -49,4 +49,11 @@ public class ClienteResource {
                 .buildAndExpand(clienteDTO.getId()).toUri();
         return ResponseEntity.created(uri).body(clienteDTO);
     }
+
+    @DeleteMapping("/id/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+        clienteService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
