@@ -86,6 +86,10 @@ public class User {
         return acesso;
     }
 
+    public void setAcesso(Set<Role> acesso) {
+        this.acesso = acesso;
+    }
+
     public List<Visita> getVisitas() {
         return visitas;
     }

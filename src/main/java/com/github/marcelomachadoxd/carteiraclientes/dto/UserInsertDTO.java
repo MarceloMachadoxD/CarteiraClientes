@@ -2,40 +2,31 @@ package com.github.marcelomachadoxd.carteiraclientes.dto;
 
 import com.github.marcelomachadoxd.carteiraclientes.entities.User;
 
-import java.util.HashSet;
-import java.util.Set;
-
-public class UserDTO {
+public class UserInsertDTO {
 
 
     private Long id;
     private String nome;
     private String email;
-    Set<RoleDTO> acesso = new HashSet<>();
+    private Long acessoId;
+    private String password;
 
-    public UserDTO() {
+    public UserInsertDTO() {
     }
 
 
-    public UserDTO(Long id, String nome, String email) {
+    public UserInsertDTO(Long id, String nome, String email, Long acessoId, String password) {
         this.id = id;
         this.nome = nome;
         this.email = email;
+        this.password = password;
     }
 
-    public UserDTO(User user) {
+    public UserInsertDTO(User user) {
         this.id = user.getId();
         this.nome = user.getNome();
         this.email = user.getEmail();
-        user.getAcesso().forEach(role -> this.acesso.add(new RoleDTO(role)));
-    }
-
-    public UserDTO(UserInsertDTO userInsertDTO) {
-        this.nome = userInsertDTO.getNome();
-        this.email = userInsertDTO.getEmail();
-        Set<RoleDTO> roles = new HashSet<>();
-        roles.add(new RoleDTO(userInsertDTO.getAcessoId(), null));
-        this.acesso = roles;
+        this.password = user.getPassword();
     }
 
 
@@ -63,8 +54,19 @@ public class UserDTO {
         this.email = email;
     }
 
-    public Set<RoleDTO> getAcesso() {
-        return acesso;
+    public Long getAcessoId() {
+        return acessoId;
     }
 
+    public void setAcessoId(Long acessoId) {
+        this.acessoId = acessoId;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

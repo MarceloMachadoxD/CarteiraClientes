@@ -1,6 +1,7 @@
 package com.github.marcelomachadoxd.carteiraclientes.resources;
 
 import com.github.marcelomachadoxd.carteiraclientes.dto.UserDTO;
+import com.github.marcelomachadoxd.carteiraclientes.dto.UserInsertDTO;
 import com.github.marcelomachadoxd.carteiraclientes.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -32,5 +33,11 @@ public class UserResource {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         userService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping()
+    public ResponseEntity<UserDTO> insert(@RequestBody UserInsertDTO userInsertDTO) {
+        UserDTO user = userService.insert(userInsertDTO);
+        return ResponseEntity.ok().body(user);
     }
 }
