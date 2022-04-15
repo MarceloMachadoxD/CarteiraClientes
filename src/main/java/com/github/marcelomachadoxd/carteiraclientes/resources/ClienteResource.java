@@ -32,13 +32,13 @@ public class ClienteResource {
 
     @GetMapping()  //{{host}}/clientes?margem=5&qtdQuartos=2&qtdBanheiros=1&qtdVagas=1&metragem=45&valorMaximo=150000
     public ResponseEntity<Page<ClienteDTO>> findByInteresses(
-            @RequestParam(name = "margem", defaultValue = "0") Integer margem,
-            @RequestParam(name = "qtdQuartos", defaultValue = "0") Integer qtdQuartos,
-            @RequestParam(name = "qtdBanheiros", defaultValue = "0") Integer qtdBanheiros,
-            @RequestParam(name = "qtdVagas", defaultValue = "0") Integer qtdVagas,
-            @RequestParam(name = "metragem", defaultValue = "0") Integer metragem,
-            @RequestParam(name = "valorMaximo", defaultValue = "0") Integer valorMaximo,
-            Pageable pageable) {
+        @RequestParam(name = "margem", defaultValue = "0") Integer margem,
+        @RequestParam(name = "qtdQuartos", defaultValue = "0") Integer qtdQuartos,
+        @RequestParam(name = "qtdBanheiros", defaultValue = "0") Integer qtdBanheiros,
+        @RequestParam(name = "qtdVagas", defaultValue = "0") Integer qtdVagas,
+        @RequestParam(name = "metragem", defaultValue = "0") Integer metragem,
+        @RequestParam(name = "valorMaximo", defaultValue = "0") Integer valorMaximo,
+        Pageable pageable) {
         Page<ClienteDTO> clienteDTO = clienteService.findByInteresses(margem, qtdQuartos, qtdBanheiros, qtdVagas, metragem, valorMaximo, pageable);
         return ResponseEntity.ok().body(clienteDTO);
     }
@@ -47,7 +47,7 @@ public class ClienteResource {
     public ResponseEntity<ClienteDTO> insert(@RequestBody ClienteDTO clienteDTO) {
         clienteDTO = clienteService.insert(clienteDTO);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                .buildAndExpand(clienteDTO.getId()).toUri();
+            .buildAndExpand(clienteDTO.getId()).toUri();
         return ResponseEntity.created(uri).body(clienteDTO);
     }
 
@@ -57,4 +57,9 @@ public class ClienteResource {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/id/{id}")
+    public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody ClienteDTO clienteDTO) {
+        clienteService.update(id, clienteDTO);
+        return ResponseEntity.ok().build();
+    }
 }

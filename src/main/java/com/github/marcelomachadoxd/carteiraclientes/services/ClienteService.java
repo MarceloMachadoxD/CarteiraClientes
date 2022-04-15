@@ -23,15 +23,15 @@ public class ClienteService {
     }
 
     public Page<ClienteDTO> findByInteresses(Integer margem, Integer qtdQuartos, Integer qtdBanheiros, Integer qtdVagas
-            , Integer metragem, Integer valorMaximo, Pageable pageable) {
+        , Integer metragem, Integer valorMaximo, Pageable pageable) {
         Page<Cliente> clientes = clienteRepository.findByInteresses(
-                margem,
-                qtdQuartos,
-                qtdBanheiros,
-                qtdVagas,
-                metragem,
-                valorMaximo,
-                pageable
+            margem,
+            qtdQuartos,
+            qtdBanheiros,
+            qtdVagas,
+            metragem,
+            valorMaximo,
+            pageable
         );
         return clientes.map(x -> new ClienteDTO(x));
     }
@@ -57,5 +57,18 @@ public class ClienteService {
 
     public void delete(Long id) {
         clienteRepository.deleteById(id);
+    }
+
+    public void update(Long id, ClienteDTO clienteDTO) {
+        Optional<Cliente> cliente = clienteRepository.findById(id);
+        cliente.get().setNome(clienteDTO.getNome());
+        cliente.get().setEmail(clienteDTO.getEmail());
+        cliente.get().setMetragem(clienteDTO.getMetragem());
+        cliente.get().setObs(clienteDTO.getObs());
+        cliente.get().setQtdBanheiros(clienteDTO.getQtdBanheiros());
+        cliente.get().setValorMaximo(clienteDTO.getValorMaximo());
+        cliente.get().setQtdQuartos(clienteDTO.getQtdQuartos());
+        cliente.get().setQtdVagas(clienteDTO.getQtdVagas());
+        clienteRepository.save(cliente.get());
     }
 }
