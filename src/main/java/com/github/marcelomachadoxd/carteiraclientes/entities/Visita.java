@@ -1,5 +1,7 @@
 package com.github.marcelomachadoxd.carteiraclientes.entities;
 
+import com.github.marcelomachadoxd.carteiraclientes.dto.VisitaDTO;
+
 import javax.persistence.*;
 import java.time.Instant;
 import java.util.Objects;
@@ -27,6 +29,12 @@ public class Visita {
     private Cliente cliente;
 
     public Visita() {
+    }
+
+    public Visita(VisitaDTO visitaDTO) {
+        this.dataVisita = visitaDTO.getDataVisita();
+        this.obs = visitaDTO.getObs();
+        this.satisfacao = visitaDTO.getSatisfacao();
     }
 
     public Long getId() {

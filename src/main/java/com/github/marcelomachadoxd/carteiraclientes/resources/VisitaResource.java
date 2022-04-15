@@ -48,4 +48,10 @@ public class VisitaResource {
         return ResponseEntity.noContent().build();
     }
 
+    @PostMapping
+    public ResponseEntity<VisitaDTO> insert(@RequestBody VisitaDTO visitaDTO) {
+        VisitaDTO visitaDTO2 = visitaService.insert(visitaDTO);
+        return ResponseEntity.ok().body(visitaDTO2);
+    }
+
 }

@@ -1,5 +1,7 @@
 package com.github.marcelomachadoxd.carteiraclientes.entities;
 
+import com.github.marcelomachadoxd.carteiraclientes.dto.UserDTO;
+
 import javax.persistence.*;
 import java.util.*;
 
