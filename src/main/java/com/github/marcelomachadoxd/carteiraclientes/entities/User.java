@@ -31,7 +31,6 @@ public class User {
     public User() {
     }
 
-
     public User(Long id, String nome, String email, String password, Set<Role> acesso) {
         this.id = id;
         this.nome = nome;
@@ -39,7 +38,6 @@ public class User {
         this.password = password;
         this.acesso = acesso;
     }
-
 
     public User(Long id, String nome, String email, String password, Set<Role> acesso, List<Visita> visitas) {
         this.id = id;

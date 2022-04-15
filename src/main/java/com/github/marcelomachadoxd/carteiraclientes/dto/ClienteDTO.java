@@ -41,7 +41,6 @@ public class ClienteDTO {
         this.obs = cliente.getObs();
     }
 
-
     public Long getId() {
         return id;
     }

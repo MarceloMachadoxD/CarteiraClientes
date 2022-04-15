@@ -12,11 +12,8 @@ public class Role {
     private Long id;
     private String nome;
 
-
     public Role() {
     }
-
-
 
     public Role(Long id, String nome) {
         this.id = id;

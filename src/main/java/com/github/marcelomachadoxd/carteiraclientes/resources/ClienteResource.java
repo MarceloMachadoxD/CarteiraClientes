@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 import java.net.URI;
 
 @RestController
@@ -24,7 +25,7 @@ public class ClienteResource {
     }
 
     @GetMapping("/nome/{nome}")
-    public ResponseEntity<Page<ClienteDTO>> findByNome(@PathVariable String nome, Pageable pageable){
+    public ResponseEntity<Page<ClienteDTO>> findByNome(@PathVariable String nome, Pageable pageable) {
         Page<ClienteDTO> clienteDTO = clienteService.findClienteByNome(nome, pageable);
         return ResponseEntity.ok().body(clienteDTO);
     }
@@ -37,13 +38,13 @@ public class ClienteResource {
             @RequestParam(name = "qtdVagas", defaultValue = "0") Integer qtdVagas,
             @RequestParam(name = "metragem", defaultValue = "0") Integer metragem,
             @RequestParam(name = "valorMaximo", defaultValue = "0") Integer valorMaximo,
-            Pageable pageable){
+            Pageable pageable) {
         Page<ClienteDTO> clienteDTO = clienteService.findByInteresses(margem, qtdQuartos, qtdBanheiros, qtdVagas, metragem, valorMaximo, pageable);
         return ResponseEntity.ok().body(clienteDTO);
     }
 
     @PostMapping()
-    public ResponseEntity<ClienteDTO> insert(@RequestBody ClienteDTO clienteDTO){
+    public ResponseEntity<ClienteDTO> insert(@RequestBody ClienteDTO clienteDTO) {
         clienteDTO = clienteService.insert(clienteDTO);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(clienteDTO.getId()).toUri();
@@ -51,7 +52,7 @@ public class ClienteResource {
     }
 
     @DeleteMapping("/id/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id){
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         clienteService.delete(id);
         return ResponseEntity.noContent().build();
     }

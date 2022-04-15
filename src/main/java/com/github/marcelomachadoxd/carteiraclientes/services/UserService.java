@@ -1,7 +1,6 @@
 package com.github.marcelomachadoxd.carteiraclientes.services;
 
 
-import com.github.marcelomachadoxd.carteiraclientes.dto.RoleDTO;
 import com.github.marcelomachadoxd.carteiraclientes.dto.UserDTO;
 import com.github.marcelomachadoxd.carteiraclientes.dto.UserInsertDTO;
 import com.github.marcelomachadoxd.carteiraclientes.entities.Role;
@@ -29,13 +28,10 @@ public class UserService {
 
 
     @Transactional(readOnly = true)
-    public Page<UserDTO> findAllPageable(Pageable pageable){
+    public Page<UserDTO> findAllPageable(Pageable pageable) {
         Page<User> users = userRepository.findAllPageable(pageable);
-
-        return users.map(x -> new UserDTO(x) );
-
+        return users.map(x -> new UserDTO(x));
     }
-
 
     public UserDTO findById(Long id) {
         Optional<User> user = userRepository.findById(id);
@@ -55,7 +51,6 @@ public class UserService {
         user.setEmail(userInsertDTO.getEmail());
         user.setPassword(userInsertDTO.getPassword());
         user.setAcesso(roles);
-
         return new UserDTO(userRepository.save(user));
     }
 }

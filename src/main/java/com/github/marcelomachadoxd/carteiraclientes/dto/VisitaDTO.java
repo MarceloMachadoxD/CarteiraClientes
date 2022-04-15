@@ -21,7 +21,6 @@ public class VisitaDTO {
         this.dataVisita = dataVisita;
         this.obs = obs;
         this.satisfacao = satisfacao;
-
     }
 
     public VisitaDTO(Visita visita) {
@@ -29,11 +28,9 @@ public class VisitaDTO {
         this.dataVisita = visita.getDataVisita();
         this.obs = visita.getObs();
         this.satisfacao = visita.getSatisfacao();
-
         this.responsavel.setId(visita.getResponsavel().getId());
         this.responsavel.setNome(visita.getResponsavel().getNome());
         this.responsavel.setEmail(visita.getResponsavel().getEmail());
-
         this.cliente.setNome(visita.getCliente().getNome());
         this.cliente.setId(visita.getCliente().getId());
     }

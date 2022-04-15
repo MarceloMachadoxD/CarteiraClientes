@@ -4,7 +4,6 @@ import com.github.marcelomachadoxd.carteiraclientes.entities.User;
 
 public class UserInsertDTO {
 
-
     private Long id;
     private String nome;
     private String email;
@@ -28,7 +27,6 @@ public class UserInsertDTO {
         this.email = user.getEmail();
         this.password = user.getPassword();
     }
-
 
     public Long getId() {
         return id;

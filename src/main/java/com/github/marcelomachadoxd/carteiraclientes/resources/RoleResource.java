@@ -24,12 +24,10 @@ public class RoleResource {
     }
 
     @PostMapping
-    public ResponseEntity<RoleDTO> insert(@RequestBody RoleDTO roleDTO){
+    public ResponseEntity<RoleDTO> insert(@RequestBody RoleDTO roleDTO) {
         roleDTO = roleService.insert(roleDTO);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(roleDTO.getId()).toUri();
         return ResponseEntity.created(uri).body(roleDTO);
     }
-
-
 }

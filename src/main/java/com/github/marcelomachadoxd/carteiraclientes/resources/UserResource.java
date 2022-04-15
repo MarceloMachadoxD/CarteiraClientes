@@ -16,9 +16,8 @@ public class UserResource {
     @Autowired
     private UserService userService;
 
-
     @GetMapping()
-    public ResponseEntity<Page<UserDTO>> findAllPageable(Pageable pageable){
+    public ResponseEntity<Page<UserDTO>> findAllPageable(Pageable pageable) {
         Page<UserDTO> users = userService.findAllPageable(pageable);
         return ResponseEntity.ok().body(users);
     }

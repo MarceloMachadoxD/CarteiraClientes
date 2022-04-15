@@ -7,7 +7,6 @@ import java.util.Set;
 
 public class UserDTO {
 
-
     private Long id;
     private String nome;
     private String email;
@@ -15,7 +14,6 @@ public class UserDTO {
 
     public UserDTO() {
     }
-
 
     public UserDTO(Long id, String nome, String email) {
         this.id = id;
@@ -37,7 +35,6 @@ public class UserDTO {
         roles.add(new RoleDTO(userInsertDTO.getAcessoId(), null));
         this.acesso = roles;
     }
-
 
     public Long getId() {
         return id;
@@ -66,5 +63,4 @@ public class UserDTO {
     public Set<RoleDTO> getAcesso() {
         return acesso;
     }
-
 }

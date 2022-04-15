@@ -22,9 +22,8 @@ public class ClienteService {
         return cliente.map(x -> new ClienteDTO(x));
     }
 
-
-    public Page<ClienteDTO> findByInteresses(Integer margem, Integer qtdQuartos, Integer qtdBanheiros, Integer qtdVagas, Integer metragem, Integer valorMaximo, Pageable pageable) {
-
+    public Page<ClienteDTO> findByInteresses(Integer margem, Integer qtdQuartos, Integer qtdBanheiros, Integer qtdVagas
+            , Integer metragem, Integer valorMaximo, Pageable pageable) {
         Page<Cliente> clientes = clienteRepository.findByInteresses(
                 margem,
                 qtdQuartos,
@@ -34,15 +33,11 @@ public class ClienteService {
                 valorMaximo,
                 pageable
         );
-
         return clientes.map(x -> new ClienteDTO(x));
-
     }
 
     public ClienteDTO findById(Long id) {
-
         Optional<Cliente> cliente = clienteRepository.findById(id);
-
         return new ClienteDTO(cliente.get());
     }
 

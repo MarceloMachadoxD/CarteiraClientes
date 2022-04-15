@@ -29,7 +29,6 @@ public class Visita {
     public Visita() {
     }
 
-
     public Long getId() {
         return id;
     }

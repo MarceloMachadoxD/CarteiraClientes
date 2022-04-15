@@ -17,12 +17,12 @@ public class RoleService {
     private RoleRepository roleRepository;
 
     @Transactional(readOnly = true)
-    public List<RoleDTO> findAll(){
+    public List<RoleDTO> findAll() {
         List<Role> list = roleRepository.findAll();
         return list.parallelStream().map(RoleDTO::new).collect(Collectors.toList());
     }
 
-    public RoleDTO insert(RoleDTO roleDTO){
+    public RoleDTO insert(RoleDTO roleDTO) {
         Role role = new Role();
         role.setNome(roleDTO.getNome());
         roleRepository.save(role);
