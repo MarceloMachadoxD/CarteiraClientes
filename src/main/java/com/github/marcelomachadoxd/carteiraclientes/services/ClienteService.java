@@ -37,8 +37,12 @@ public class ClienteService {
     }
 
     public ClienteDTO findById(Long id) {
+        try {
         Optional<Cliente> cliente = clienteRepository.findById(id);
         return new ClienteDTO(cliente.get());
+        } catch (Exception e) {
+            throw new RuntimeException("Cliente não encontrado");
+        }
     }
 
     public ClienteDTO insert(ClienteDTO clienteDTO) {
