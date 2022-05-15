@@ -3,6 +3,8 @@ package com.github.marcelomachadoxd.carteiraclientes.services;
 import com.github.marcelomachadoxd.carteiraclientes.dto.ClienteDTO;
 import com.github.marcelomachadoxd.carteiraclientes.entities.Cliente;
 import com.github.marcelomachadoxd.carteiraclientes.repositories.ClienteRepository;
+import com.github.marcelomachadoxd.carteiraclientes.services.exceptions.DatabaseException;
+import com.github.marcelomachadoxd.carteiraclientes.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,9 +19,12 @@ public class ClienteService {
     private ClienteRepository clienteRepository;
 
     public Page<ClienteDTO> findClienteByNome(String nome, Pageable pageable) {
-
+        try {
         Page<Cliente> cliente = clienteRepository.findByNome(nome, pageable);
         return cliente.map(x -> new ClienteDTO(x));
+        }catch (Exception e) {
+                throw new ResourceNotFoundException("Cliente não encontrado para o termo: " + nome);
+            }
     }
 
     public Page<ClienteDTO> findByInteresses(Integer margem, Integer qtdQuartos, Integer qtdBanheiros, Integer qtdVagas
@@ -41,7 +46,7 @@ public class ClienteService {
         Optional<Cliente> cliente = clienteRepository.findById(id);
         return new ClienteDTO(cliente.get());
         } catch (Exception e) {
-            throw new RuntimeException("Cliente não encontrado");
+            throw new ResourceNotFoundException("Cliente não encontrado para o id: " + id);
         }
     }
 
@@ -60,7 +65,11 @@ public class ClienteService {
     }
 
     public void delete(Long id) {
+        try {
         clienteRepository.deleteById(id);
+        } catch (Exception e) {
+            throw new DatabaseException("Erro ao deletar cliente " + id);
+        }
     }
 
     public void update(Long id, ClienteDTO clienteDTO) {

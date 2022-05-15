@@ -7,6 +7,8 @@ import com.github.marcelomachadoxd.carteiraclientes.entities.Role;
 import com.github.marcelomachadoxd.carteiraclientes.entities.User;
 import com.github.marcelomachadoxd.carteiraclientes.repositories.RoleRepository;
 import com.github.marcelomachadoxd.carteiraclientes.repositories.UserRepository;
+import com.github.marcelomachadoxd.carteiraclientes.services.exceptions.DatabaseException;
+import com.github.marcelomachadoxd.carteiraclientes.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,13 +36,21 @@ public class UserService {
     }
 
     public UserDTO findById(Long id) {
-        Optional<User> user = userRepository.findById(id);
+        try {
+            Optional<User> user = userRepository.findById(id);
         UserDTO userDTO = new UserDTO(user.get());
         return userDTO;
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("usuario não encontrado para o id: " + id);
+        }
     }
 
     public void delete(Long id) {
-        userRepository.deleteById(id);
+        try {
+            userRepository.deleteById(id);
+        } catch (Exception e) {
+            throw new DatabaseException("Erro ao deletar Usuario " + id);
+        }
     }
 
     public UserDTO insert(UserInsertDTO userInsertDTO) {
