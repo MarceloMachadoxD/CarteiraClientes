@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
@@ -58,7 +59,7 @@ public class ClienteResource {
     }
 
     @PutMapping("/id/{id}")
-    public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody ClienteDTO clienteDTO) {
+    public ResponseEntity<Void> update(@PathVariable Long id, @Valid @RequestBody ClienteDTO clienteDTO) {
         clienteService.update(id, clienteDTO);
         return ResponseEntity.ok().build();
     }
