@@ -2,20 +2,25 @@ package com.github.marcelomachadoxd.carteiraclientes.dto;
 
 import com.github.marcelomachadoxd.carteiraclientes.entities.User;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
 public class UserInsertDTO {
 
     private Long id;
+    @NotBlank(message = "Campo Obrigatório")
     private String nome;
+    @Email(message = "Email inválido")
     private String email;
     private Long acessoId;
+    @NotBlank(message = "Campo Obrigatório")
     private String password;
 
     public UserInsertDTO() {
     }
 
 
-    public UserInsertDTO(Long id, String nome, String email, Long acessoId, String password) {
-        this.id = id;
+    public UserInsertDTO(String nome, String email, Long acessoId, String password) {
         this.nome = nome;
         this.email = email;
         this.password = password;

@@ -38,8 +38,8 @@ public class UserService {
     public UserDTO findById(Long id) {
         try {
             Optional<User> user = userRepository.findById(id);
-        UserDTO userDTO = new UserDTO(user.get());
-        return userDTO;
+            UserDTO userDTO = new UserDTO(user.get());
+            return userDTO;
         } catch (Exception e) {
             throw new ResourceNotFoundException("usuario não encontrado para o id: " + id);
         }
@@ -54,13 +54,17 @@ public class UserService {
     }
 
     public UserDTO insert(UserInsertDTO userInsertDTO) {
-        Set<Role> roles = new HashSet<>();
-        roles.add(new Role(roleRepository.findById(userInsertDTO.getAcessoId()).get()));
-        User user = new User();
-        user.setNome(userInsertDTO.getNome());
-        user.setEmail(userInsertDTO.getEmail());
-        user.setPassword(userInsertDTO.getPassword());
-        user.setAcesso(roles);
-        return new UserDTO(userRepository.save(user));
+        try {
+            Set<Role> roles = new HashSet<>();
+            roles.add(new Role(roleRepository.findById(userInsertDTO.getAcessoId()).get()));
+            User user = new User();
+            user.setNome(userInsertDTO.getNome());
+            user.setEmail(userInsertDTO.getEmail());
+            user.setPassword(userInsertDTO.getPassword());
+            user.setAcesso(roles);
+            return new UserDTO(userRepository.save(user));
+        } catch (Exception e) {
+            throw new DatabaseException("Erro ao inserir Usuario");
+        }
     }
 }

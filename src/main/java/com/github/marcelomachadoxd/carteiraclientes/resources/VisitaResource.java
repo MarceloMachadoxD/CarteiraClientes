@@ -8,6 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(value = "/visitas")
 public class VisitaResource {
@@ -49,7 +51,7 @@ public class VisitaResource {
     }
 
     @PostMapping
-    public ResponseEntity<VisitaDTO> insert(@RequestBody VisitaDTO visitaDTO) {
+    public ResponseEntity<VisitaDTO> insert(@Valid @RequestBody VisitaDTO visitaDTO) {
         VisitaDTO visitaDTO2 = visitaService.insert(visitaDTO);
         return ResponseEntity.ok().body(visitaDTO2);
     }

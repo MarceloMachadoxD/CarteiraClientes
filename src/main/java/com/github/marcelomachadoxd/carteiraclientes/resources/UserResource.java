@@ -9,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(value = "/users")
 public class UserResource {
@@ -35,7 +37,7 @@ public class UserResource {
     }
 
     @PostMapping()
-    public ResponseEntity<UserDTO> insert(@RequestBody UserInsertDTO userInsertDTO) {
+    public ResponseEntity<UserDTO> insert(@Valid @RequestBody UserInsertDTO userInsertDTO) {
         UserDTO user = userService.insert(userInsertDTO);
         return ResponseEntity.ok().body(user);
     }

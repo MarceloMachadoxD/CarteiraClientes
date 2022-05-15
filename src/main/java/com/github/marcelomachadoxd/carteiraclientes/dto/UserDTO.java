@@ -2,14 +2,19 @@ package com.github.marcelomachadoxd.carteiraclientes.dto;
 
 import com.github.marcelomachadoxd.carteiraclientes.entities.User;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.Set;
 
 public class UserDTO {
 
     private Long id;
+    @NotBlank
     private String nome;
+    @Email
     private String email;
+    @NotBlank
     Set<RoleDTO> acesso = new HashSet<>();
 
     public UserDTO() {

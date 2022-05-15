@@ -2,15 +2,20 @@ package com.github.marcelomachadoxd.carteiraclientes.dto;
 
 import com.github.marcelomachadoxd.carteiraclientes.entities.Visita;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
 import java.time.Instant;
 
 public class VisitaDTO {
 
     private Long id;
+    @PastOrPresent
     private Instant dataVisita;
     private String obs;
     private Boolean satisfacao;
+    @NotNull
     private UserDTO responsavel = new UserDTO();
+    @NotNull
     private ClienteDadosBasicosDTO cliente = new ClienteDadosBasicosDTO();
 
     public VisitaDTO() {
