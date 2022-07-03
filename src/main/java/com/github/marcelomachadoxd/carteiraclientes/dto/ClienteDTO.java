@@ -2,15 +2,24 @@ package com.github.marcelomachadoxd.carteiraclientes.dto;
 
 import com.github.marcelomachadoxd.carteiraclientes.entities.Cliente;
 
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Email;
+
 public class ClienteDTO {
 
     private Long id;
     private String nome;
+    @Email
     private String email;
+    @DecimalMin("0")
     private Integer qtdQuartos;
+    @DecimalMin("0")
     private Integer qtdBanheiros;
+    @DecimalMin("0")
     private Integer qtdVagas;
+    @DecimalMin("0")
     private Integer metragem;
+    @DecimalMin("0")
     private Integer valorMaximo;
     private String obs;
 

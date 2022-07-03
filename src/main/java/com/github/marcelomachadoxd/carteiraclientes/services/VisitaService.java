@@ -33,7 +33,7 @@ public class VisitaService {
     public VisitaDTO findById(Long id) {
         try {
             Optional<Visita> visita = visitaRepository.findById(id);
-        return new VisitaDTO(visita.get());
+            return new VisitaDTO(visita.get());
         } catch (Exception e) {
             throw new ResourceNotFoundException("Visita não encontrada para o id: " + id);
         }
@@ -42,8 +42,8 @@ public class VisitaService {
     public Page<VisitaDTO> findResponsavelById(Long id, Pageable pageable) {
         try {
             Optional<Visita> visita = visitaRepository.findById(id);
-        Page<Visita> visitas = visitaRepository.findByResponsavelId(id, pageable);
-        return visitas.map(x -> new VisitaDTO(x));
+            Page<Visita> visitas = visitaRepository.findByResponsavelId(id, pageable);
+            return visitas.map(x -> new VisitaDTO(x));
         } catch (Exception e) {
             throw new ResourceNotFoundException("Visita não encontrada Responsavel id: " + id);
         }
@@ -52,7 +52,7 @@ public class VisitaService {
     public Page<VisitaDTO> findClientelById(Long id, Pageable pageable) {
         try {
             Page<Visita> visitas = visitaRepository.findByClienteId(id, pageable);
-        return visitas.map(x -> new VisitaDTO(x));
+            return visitas.map(x -> new VisitaDTO(x));
         } catch (Exception e) {
             throw new ResourceNotFoundException("Visita não encontrada Cliente id: " + id);
         }
@@ -61,7 +61,7 @@ public class VisitaService {
     public Page<VisitaDTO> findbyClienteAndResponsavelId(Long cliId, Long respId, Pageable pageable) {
         try {
             Page<Visita> visitas = visitaRepository.findByClienteAndResponsavelId(cliId, respId, pageable);
-        return visitas.map(x -> new VisitaDTO(x));
+            return visitas.map(x -> new VisitaDTO(x));
         } catch (Exception e) {
             throw new ResourceNotFoundException("Visita não encontrada Cliente id: " + cliId + " e Responsavel id: " + respId);
         }
@@ -73,11 +73,21 @@ public class VisitaService {
 
     public VisitaDTO insert(VisitaDTO visitaDTO) {
         Visita visita = new Visita(visitaDTO);
-        User user = userRepository.findById(visitaDTO.getResponsavel().getId()).get();
-        visita.setResponsavel(user);
 
-        Cliente cliente = clienteRepository.findById(visitaDTO.getCliente().getId()).get();
-        visita.setCliente(cliente);
+        try {
+            User user = userRepository.findById(visitaDTO.getResponsavel().getId()).get();
+            visita.setResponsavel(user);
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Responsável não encontrado para o id: " + visitaDTO.getResponsavel().getId());
+        }
+
+
+        try {
+            Cliente cliente = clienteRepository.findById(visitaDTO.getCliente().getId()).get();
+            visita.setCliente(cliente);
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Cliente não encontrado para o id: " + visitaDTO.getCliente().getId());
+        }
 
         return new VisitaDTO(visitaRepository.save(visita));
     }
