@@ -1,0 +1,283 @@
+{
+	"info": {
+		"_postman_id": "342e45e9-b4f7-4df7-930d-c1d9dc6da796",
+		"name": "Ordem da apresentacao",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "InsertClient wrong email",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nome\": \"Joao4\",\n    \"email\": \"joaoARROBBAemailPONTOcom\",\n    \"qtdQuartos\": -2,\n    \"qtdBanheiros\": 1,\n    \"qtdVagas\": 1,\n    \"metragem\": 50,\n    \"valorMaximo\": 200000,\n    \"obs\": \"não quer andar alto\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/clientes",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"clientes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "InsertClient Copy",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nome\": \"Joao4\",\n    \"email\": \"joao@email.com\",\n    \"qtdQuartos\": 2,\n    \"qtdBanheiros\": 1,\n    \"qtdVagas\": 1,\n    \"metragem\": 50,\n    \"valorMaximo\": 200000,\n    \"obs\": \"não quer andar alto\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/clientes",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"clientes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Atualiza Cliente Copy",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nome\": \"Joao\",\n    \"email\": \"joao@email.com\",\n    \"qtdQuartos\": 2,\n    \"qtdBanheiros\": 1,\n    \"qtdVagas\": 1,\n    \"metragem\": 150,\n    \"valorMaximo\": 200000,\n    \"obs\": \"quer andar alto\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/clientes/id/37",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"clientes",
+						"id",
+						"37"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetClientById Copy",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/clientes/id/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"clientes",
+						"id",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetClientById Invalid Copy",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/clientes/id/90000",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"clientes",
+						"id",
+						"90000"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAllClientes Copy",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/clientes/?page=0",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"clientes",
+						""
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Buscar clientes por interesse",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/clientes?margem=5&qtdQuartos=2&qtdBanheiros=1&qtdVagas=1&metragem=45&valorMaximo=150000",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"clientes"
+					],
+					"query": [
+						{
+							"key": "margem",
+							"value": "5"
+						},
+						{
+							"key": "qtdQuartos",
+							"value": "2"
+						},
+						{
+							"key": "qtdBanheiros",
+							"value": "1"
+						},
+						{
+							"key": "qtdVagas",
+							"value": "1"
+						},
+						{
+							"key": "metragem",
+							"value": "45"
+						},
+						{
+							"key": "valorMaximo",
+							"value": "150000"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DelteClienteId Copy",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/clientes/id/37",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"clientes",
+						"id",
+						"37"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Buscar Visita por Cliente Copy",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/visitas/cliente/37",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"visitas",
+						"cliente",
+						"37"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "InsertVisita Copy",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"dataVisita\": \"2022-07-06T17:00:00Z\",\n    \"obs\": \"\",\n    \"satisfacao\": true,\n    \"responsavel\": {\n        \"id\": 2\n    },\n    \"cliente\": {\n        \"id\": 37\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/visitas",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"visitas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Buscar Visita por Responsável Copy",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/visitas/responsavel/2?page=0",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"visitas",
+						"responsavel",
+						"2"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
