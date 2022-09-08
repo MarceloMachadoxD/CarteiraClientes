@@ -13,3 +13,5 @@ Tecnologias Utilizadas:
 Coleções de exemplo para as requisições no postman disponíveis na pasta src/main/resources/postman-requests
 
 para acessar o swagger e ter a documentação API dos endpoints e modelos de dados dos DTOs para entrada e saída de requisições disponíveis no link http://localhost:8080/swagger-ui.html
+
+Para executar o projeto pela IDE(Sugestão Intellij) abra como projeto maven e execute a classe CarteiraDeClientesApplication.java
