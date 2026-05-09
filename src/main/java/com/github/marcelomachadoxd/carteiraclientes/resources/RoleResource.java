@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/roles")
-public class RoleResource {
+public class RoleResource implements com.github.marcelomachadoxd.carteiraclientes.resources.documentation.RoleResourceDocumentation {
 
     @Autowired
     private RoleService roleService;

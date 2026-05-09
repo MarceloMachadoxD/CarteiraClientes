@@ -83,7 +83,7 @@ Enriquecer a documentação Swagger da API CarteiraClientes adotando duas camada
   - Fazer `RoleResource` implementar `RoleResourceDocumentation`
   - _Requisitos: 1.4, 1.12, 6.1, 6.2, 6.3, 6.4_
 
-  - [~] 5.1 Criar a interface `RoleResourceDocumentation`
+  - [x] 5.1 Criar a interface `RoleResourceDocumentation`
     - Declarar os 2 métodos com `@Operation` (summary ≤ 10 palavras, description com ≥ 1 frase), `@ApiResponse` para 200/201 com `content` referenciando `RoleDTO`, e `@RequestBody` com exemplo de payload `nome="ROLE_CORRETOR"` (sem `id`) para `POST /roles`
     - _Requisitos: 1.4, 6.1, 6.3, 6.4_
 
