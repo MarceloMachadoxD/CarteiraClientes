@@ -37,7 +37,7 @@ Enriquecer a documentação Swagger da API CarteiraClientes adotando duas camada
     - Verificar que nenhuma anotação Swagger foi adicionada diretamente nos métodos do controller
     - _Requisitos: 1.1, 1.9_
 
-- [ ] 3. Criar `VisitaResourceDocumentation` e enriquecer `VisitaDTO`
+- [x] 3. Criar `VisitaResourceDocumentation` e enriquecer `VisitaDTO`
   - Criar a interface `VisitaResourceDocumentation` com `@Tag` e os 6 métodos anotados conforme o design
   - Adicionar `@Schema(example = ...)` nos campos primitivos do `VisitaDTO` e nos objetos aninhados
   - Fazer `VisitaResource` implementar `VisitaResourceDocumentation`
@@ -52,7 +52,7 @@ Enriquecer a documentação Swagger da API CarteiraClientes adotando duas camada
     - Anotar os campos primitivos (`id=1`, `dataVisita="2025-03-15T14:30:00Z"`, `obs="Cliente gostou do imóvel, aguardando proposta"`, `satisfacao=true`) e os campos dos objetos aninhados (`responsavel.id=2`, `responsavel.nome="João Corretor"`, `cliente.id=1`, `cliente.nome="Maria Silva"`)
     - _Requisitos: 4.3_
 
-  - [~] 3.3 Fazer `VisitaResource` implementar `VisitaResourceDocumentation`
+  - [x] 3.3 Fazer `VisitaResource` implementar `VisitaResourceDocumentation`
     - Adicionar `implements VisitaResourceDocumentation` na declaração da classe
     - Verificar que nenhuma anotação Swagger foi adicionada diretamente nos métodos do controller
     - _Requisitos: 1.2, 1.10_
