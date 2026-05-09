@@ -1,14 +1,20 @@
 package com.github.marcelomachadoxd.carteiraclientes.repositories;
 
 import com.github.marcelomachadoxd.carteiraclientes.entities.Cliente;
+import net.jqwik.api.ForAll;
+import net.jqwik.api.Property;
+import net.jqwik.api.constraints.IntRange;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestContextManager;
 
 import java.util.Optional;
 
@@ -17,10 +23,40 @@ import static org.junit.jupiter.api.Assertions.*;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("test")
-class ClienteRepositoryTest {
+class ClienteRepositoryTest implements ApplicationContextAware {
 
     @Autowired
     private ClienteRepository clienteRepository;
+
+    // Static reference used by jqwik @Property methods (which run on a separate instance
+    // without Spring injection). Populated via ApplicationContextAware on the Spring-managed instance.
+    private static ClienteRepository sharedClienteRepository;
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) {
+        sharedClienteRepository = applicationContext.getBean(ClienteRepository.class);
+    }
+
+    /**
+     * Returns the ClienteRepository, initializing the Spring context via TestContextManager
+     * if needed (e.g., when called from a jqwik @Property method on a non-Spring instance).
+     */
+    private ClienteRepository getRepository() {
+        if (clienteRepository != null) {
+            return clienteRepository;
+        }
+        if (sharedClienteRepository != null) {
+            return sharedClienteRepository;
+        }
+        // Bootstrap Spring context for this instance (used by jqwik @Property methods)
+        try {
+            TestContextManager testContextManager = new TestContextManager(ClienteRepositoryTest.class);
+            testContextManager.prepareTestInstance(this);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to initialize Spring context for property test", e);
+        }
+        return clienteRepository;
+    }
 
     // -------------------------------------------------------------------------
     // findByNome tests
@@ -109,6 +145,48 @@ class ClienteRepositoryTest {
         boolean found = result.getContent().stream()
                 .anyMatch(c -> c.getId().equals(saved.getId()));
         assertFalse(found, "Client with qtdQuartos=1 should NOT appear when searching with qtdQuartos=3");
+    }
+
+    // -------------------------------------------------------------------------
+    // Property 2: findByInteresses filter correctness with margin
+    // Validates: Requirements 2.3, 2.4, 2.6
+    // -------------------------------------------------------------------------
+
+    @Property(tries = 50)
+    void findByInteressesFilterCorrectnessProperty(
+            @ForAll @IntRange(min = 1, max = 5) int qtdQuartos,
+            @ForAll @IntRange(min = 1, max = 5) int qtdBanheiros,
+            @ForAll @IntRange(min = 1, max = 5) int qtdVagas,
+            @ForAll @IntRange(min = 1, max = 5) int metragem,
+            @ForAll @IntRange(min = 1, max = 5) int valorMaximo) {
+
+        ClienteRepository repo = getRepository();
+
+        // Save a client whose attributes exactly match the filter parameters
+        Cliente cliente = new Cliente();
+        cliente.setNome("PropTest-" + qtdQuartos + "-" + qtdBanheiros);
+        cliente.setEmail("proptest" + System.nanoTime() + "@test.com");
+        cliente.setQtdQuartos(qtdQuartos);
+        cliente.setQtdBanheiros(qtdBanheiros);
+        cliente.setQtdVagas(qtdVagas);
+        cliente.setMetragem(metragem);
+        cliente.setValorMaximo(valorMaximo);
+        Cliente saved = repo.save(cliente);
+        repo.flush();
+
+        // Search with the exact same values and margem=0
+        Pageable pageable = PageRequest.of(0, 1000);
+        Page<Cliente> result = repo.findByInteresses(
+                0, qtdQuartos, qtdBanheiros, qtdVagas, metragem, valorMaximo, pageable);
+
+        // The saved client must appear in the result
+        boolean found = result.getContent().stream()
+                .anyMatch(c -> c.getId().equals(saved.getId()));
+        assertTrue(found,
+                "Client with qtdQuartos=" + qtdQuartos + ", qtdBanheiros=" + qtdBanheiros
+                        + ", qtdVagas=" + qtdVagas + ", metragem=" + metragem
+                        + ", valorMaximo=" + valorMaximo
+                        + " should appear in findByInteresses result with exact match (margem=0)");
     }
 
     // -------------------------------------------------------------------------

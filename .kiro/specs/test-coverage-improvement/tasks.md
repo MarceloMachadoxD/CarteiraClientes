@@ -39,7 +39,7 @@ Add JaCoCo coverage enforcement, jqwik property-based tests for repository queri
     - **Property 1: findByNome returns only prefix-matching clients (case-insensitive)**
     - **Validates: Requirements 2.1, 2.2**
 
-  - [ ]* 2.3 Write property test for findByInteresses filter correctness (Property 2)
+  - [x] 2.3 Write property test for findByInteresses filter correctness (Property 2)
     - Add `@Property(tries = 50) void findByInteressesFilterCorrectnessProperty(...)` to `ClienteRepositoryTest`
     - Use jqwik `@ForAll @IntRange(min=1, max=5)` parameters for `qtdQuartos`, `qtdBanheiros`, `qtdVagas`, `metragem`, `valorMaximo`
     - Save a `Cliente` with those exact values, call `findByInteresses(0, qtdQuartos, qtdBanheiros, qtdVagas, metragem, valorMaximo, PageRequest.of(0,100))`
