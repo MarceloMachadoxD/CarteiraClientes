@@ -190,6 +190,39 @@ class ClienteRepositoryTest implements ApplicationContextAware {
     }
 
     // -------------------------------------------------------------------------
+    // Property 3: findByInteresses with all-zero parameters returns all clients
+    // Validates: Requirement 2.5
+    // -------------------------------------------------------------------------
+
+    @Property(tries = 20)
+    void findByInteressesAllZeroReturnsAllProperty(
+            @ForAll @IntRange(min = 1, max = 5) int n) {
+
+        ClienteRepository repo = getRepository();
+
+        // Save N random clients with unique emails
+        for (int i = 0; i < n; i++) {
+            Cliente cliente = new Cliente();
+            cliente.setNome("AllZeroProp-" + i);
+            cliente.setEmail("allzero" + System.nanoTime() + i + "@test.com");
+            cliente.setQtdQuartos(i + 1);
+            cliente.setQtdBanheiros(i + 1);
+            cliente.setQtdVagas(i + 1);
+            cliente.setMetragem((i + 1) * 10);
+            cliente.setValorMaximo((i + 1) * 100000);
+            repo.save(cliente);
+        }
+        repo.flush();
+
+        // Call findByInteresses with all-zero parameters (wildcard — matches everything)
+        Page<Cliente> result = repo.findByInteresses(0, 0, 0, 0, 0, 0, PageRequest.of(0, 1000));
+
+        assertTrue(result.getTotalElements() >= n,
+                "findByInteresses with all-zero params should return at least the " + n
+                        + " clients just saved, but got " + result.getTotalElements());
+    }
+
+    // -------------------------------------------------------------------------
     // save / findById round-trip test
     // -------------------------------------------------------------------------
 
