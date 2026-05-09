@@ -2,16 +2,21 @@ package com.github.marcelomachadoxd.carteiraclientes.dto;
 
 import com.github.marcelomachadoxd.carteiraclientes.entities.Visita;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import java.time.Instant;
 
 public class VisitaDTO {
 
+    @Schema(example = "1")
     private Long id;
     @PastOrPresent
+    @Schema(example = "2025-03-15T14:30:00Z")
     private Instant dataVisita;
+    @Schema(example = "Cliente gostou do imóvel, aguardando proposta")
     private String obs;
+    @Schema(example = "true")
     private Boolean satisfacao;
     @NotNull
     private UserDTO responsavel = new UserDTO();

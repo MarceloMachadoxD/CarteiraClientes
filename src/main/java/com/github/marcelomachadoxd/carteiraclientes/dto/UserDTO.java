@@ -2,6 +2,7 @@ package com.github.marcelomachadoxd.carteiraclientes.dto;
 
 import com.github.marcelomachadoxd.carteiraclientes.entities.User;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import java.util.HashSet;
@@ -9,8 +10,10 @@ import java.util.Set;
 
 public class UserDTO {
 
+    @Schema(example = "2")
     private Long id;
     @NotBlank
+    @Schema(example = "João Corretor")
     private String nome;
     @Email
     private String email;

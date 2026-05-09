@@ -48,7 +48,7 @@ Enriquecer a documentação Swagger da API CarteiraClientes adotando duas camada
     - Atenção: `VisitaResource` tem dois métodos com o nome `findByClienteId` — a interface deve declarar ambos com as assinaturas exatas para resolução correta pelo Java
     - _Requisitos: 1.2, 4.1, 4.2, 4.4, 4.5_
 
-  - [~] 3.2 Adicionar `@Schema(example = ...)` nos campos do `VisitaDTO`
+  - [x] 3.2 Adicionar `@Schema(example = ...)` nos campos do `VisitaDTO`
     - Anotar os campos primitivos (`id=1`, `dataVisita="2025-03-15T14:30:00Z"`, `obs="Cliente gostou do imóvel, aguardando proposta"`, `satisfacao=true`) e os campos dos objetos aninhados (`responsavel.id=2`, `responsavel.nome="João Corretor"`, `cliente.id=1`, `cliente.nome="Maria Silva"`)
     - _Requisitos: 4.3_
 

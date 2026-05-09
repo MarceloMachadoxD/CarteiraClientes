@@ -2,9 +2,13 @@ package com.github.marcelomachadoxd.carteiraclientes.dto;
 
 import com.github.marcelomachadoxd.carteiraclientes.entities.Cliente;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 public class ClienteDadosBasicosDTO {
 
+    @Schema(example = "1")
     private Long id;
+    @Schema(example = "Maria Silva")
     private String nome;
 
     public ClienteDadosBasicosDTO() {
