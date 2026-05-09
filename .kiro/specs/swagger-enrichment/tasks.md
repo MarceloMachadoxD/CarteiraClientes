@@ -57,7 +57,7 @@ Enriquecer a documentação Swagger da API CarteiraClientes adotando duas camada
     - Verificar que nenhuma anotação Swagger foi adicionada diretamente nos métodos do controller
     - _Requisitos: 1.2, 1.10_
 
-- [ ] 4. Criar `UserResourceDocumentation` e enriquecer `UserDTO` / `UserInsertDTO`
+- [x] 4. Criar `UserResourceDocumentation` e enriquecer `UserDTO` / `UserInsertDTO`
   - Criar a interface `UserResourceDocumentation` com `@Tag` e os 4 métodos anotados conforme o design
   - Adicionar `@Schema(example = ...)` nos campos de `UserDTO` e `UserInsertDTO`
   - Fazer `UserResource` implementar `UserResourceDocumentation`
@@ -72,7 +72,7 @@ Enriquecer a documentação Swagger da API CarteiraClientes adotando duas camada
     - `UserInsertDTO`: `nome="João Corretor"`, `email="joao.corretor@imobiliaria.com.br"`, `acessoId=1`, `password="senha123"`
     - _Requisitos: 5.1_
 
-  - [~] 4.3 Fazer `UserResource` implementar `UserResourceDocumentation`
+  - [x] 4.3 Fazer `UserResource` implementar `UserResourceDocumentation`
     - Adicionar `implements UserResourceDocumentation` na declaração da classe
     - Verificar que nenhuma anotação Swagger foi adicionada diretamente nos métodos do controller
     - _Requisitos: 1.3, 1.11_
