@@ -28,7 +28,7 @@ Enriquecer a documentação Swagger da API CarteiraClientes adotando duas camada
     - Declarar os 6 métodos com `@Operation` (summary ≤ 120 chars, description com ≥ 1 frase), `@Parameter` para os 6 query params de `GET /clientes`, `@ApiResponse` para 200/201/204/404/422 conforme a tabela do design, e `@RequestBody` com exemplo de payload para `POST /clientes`
     - _Requisitos: 1.1, 3.1, 3.2, 3.4, 3.5, 3.6_
 
-  - [ ] 2.2 Adicionar `@Schema(example = ...)` nos campos do `ClienteDTO`
+  - [x] 2.2 Adicionar `@Schema(example = ...)` nos campos do `ClienteDTO`
     - Anotar os 9 campos com os valores de exemplo definidos no design: `id=1`, `nome="Maria Silva"`, `email="maria.silva@email.com"`, `qtdQuartos=2`, `qtdBanheiros=1`, `qtdVagas=1`, `metragem=65`, `valorMaximo=350000`, `obs="Prefere apartamento em andar alto, aceita condomínio até R$ 800"`
     - _Requisitos: 3.3_
 
