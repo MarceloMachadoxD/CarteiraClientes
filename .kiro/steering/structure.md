@@ -1,48 +1,78 @@
-# Project Structure
+---
+inclusion: always
+---
+
+# Estrutura do Projeto
 
 ## Package Root
+
 `com.github.marcelomachadoxd.carteiraclientes`
 
-## Layer Organization
+## Organização de Camadas
 
 ```
 src/main/java/.../carteiraclientes/
-├── CarteiraClientesApplication.java   # Spring Boot entry point
-├── config/                            # Spring configuration beans (Swagger, etc.)
-├── entities/                          # JPA entities mapped to DB tables
-├── dto/                               # Data Transfer Objects for API input/output
-├── repositories/                      # Spring Data JPA interfaces
-├── services/                          # Business logic layer
-│   └── exceptions/                    # Service-level exceptions (ResourceNotFoundException, DatabaseException)
-└── resources/                         # REST controllers (@RestController)
-    └── exceptions/                    # Global exception handler + error response models
+├── CarteiraClientesApplication.java   # Entry point Spring Boot
+├── config/                            # Beans de configuração (Swagger, etc.)
+├── entities/                          # Entidades JPA mapeadas para tabelas do DB
+├── dto/                               # Data Transfer Objects para input/output da API
+├── repositories/                      # Interfaces Spring Data JPA
+├── services/                          # Camada de lógica de negócio
+│   └── exceptions/                    # Exceções de serviço: ResourceNotFoundException, DatabaseException
+└── resources/                         # Controllers REST (@RestController)
+    └── exceptions/                    # Handler global de exceções + modelos de resposta de erro
 
 src/main/resources/
-├── application.properties             # Base config (profile selection, JWT, OAuth2 placeholders)
-├── application-test.properties        # H2 in-memory DB config for test/dev
-├── data.sql                           # Seed data loaded on startup (test profile)
-├── banner.txt                         # Custom Spring Boot banner
-└── postman-requests/                  # Postman collection files for manual API testing
+├── application.properties             # Config base (seleção de perfil, placeholders JWT/OAuth2)
+├── application-test.properties        # Config H2 in-memory para perfil test/dev
+├── data.sql                           # Seed data carregado na inicialização (perfil test)
+├── banner.txt                         # Banner customizado do Spring Boot
+└── postman-requests/                  # Coleções Postman para testes manuais da API
 
-src/test/                              # JUnit tests
+src/test/                              # Testes JUnit + jqwik
 ```
 
-## Naming Conventions
-- **Entities**: plain class name, e.g. `Cliente`, `Visita`, `User`, `Role`
-- **DTOs**: `<Entity>DTO`, e.g. `ClienteDTO`, `VisitaDTO`. Specialized variants use a suffix: `ClienteDadosBasicosDTO`, `UserInsertDTO`
-- **Repositories**: `<Entity>Repository` extending `JpaRepository<Entity, Long>`
-- **Services**: `<Entity>Service` annotated with `@Service`
-- **Resources (controllers)**: `<Entity>Resource` annotated with `@RestController`
-- **DB tables**: prefixed with `tb_`, e.g. `tb_cliente`, `tb_visitas`, `tb_user`, `tb_role`
+## Convenções de Nomenclatura
 
-## Architecture Patterns
-- Strict layered architecture: Resource → Service → Repository. Resources never access repositories directly.
-- DTOs are used at the resource boundary; entities are never exposed directly in responses.
-- DTOs include a copy constructor that accepts the entity: `new ClienteDTO(cliente)`.
-- Services throw `ResourceNotFoundException` (→ 404) or `DatabaseException` (→ 400); `ResourceExceptionHandler` (`@ControllerAdvice`) maps these to structured JSON error responses.
-- Bean validation (`@Valid`) is applied on request bodies in resources; validation errors are caught by `ResourceExceptionHandler` and returned as `ValidationError` with per-field messages.
-- Repositories use JPQL `@Query` for custom queries (e.g. name search, interest-based filtering with margin tolerance).
-- All list endpoints return paginated `Page<DTO>` using Spring Data's `Pageable`.
-- `equals`/`hashCode` on entities are based solely on `id`.
-- Field injection (`@Autowired`) is used throughout (constructor injection not currently adopted).
-- Portuguese is used for domain field names and messages (e.g. `nome`, `email`, `qtdQuartos`, `responsavel`).
+| Tipo | Padrão | Exemplos |
+|---|---|---|
+| Entidades | Nome simples | `Cliente`, `Visita`, `User`, `Role` |
+| DTOs | `<Entidade>DTO` | `ClienteDTO`, `VisitaDTO` |
+| DTOs especializados | `<Entidade><Sufixo>DTO` | `ClienteDadosBasicosDTO`, `UserInsertDTO` |
+| Repositories | `<Entidade>Repository` extends `JpaRepository<Entidade, Long>` | `ClienteRepository` |
+| Services | `<Entidade>Service` com `@Service` | `ClienteService` |
+| Resources (controllers) | `<Entidade>Resource` com `@RestController` | `ClienteResource` |
+| Tabelas DB | prefixo `tb_` | `tb_cliente`, `tb_visitas`, `tb_user`, `tb_role` |
+
+## Padrões de Arquitetura
+
+### Camadas e Dependências
+- Fluxo estrito: `Resource → Service → Repository`. Resources **nunca** acessam repositories diretamente.
+- DTOs são usados na fronteira da API; entidades **nunca** são expostas diretamente nas respostas.
+- Todo DTO deve ter um construtor de cópia que aceita a entidade: `new ClienteDTO(cliente)`.
+
+### Tratamento de Erros
+- Services lançam `ResourceNotFoundException` (→ HTTP 404) ou `DatabaseException` (→ HTTP 400).
+- `ResourceExceptionHandler` (`@ControllerAdvice`) mapeia essas exceções para respostas JSON estruturadas (`StandardError`, `ValidationError`).
+- Bean validation (`@Valid`) é aplicado nos request bodies nos resources; erros de validação são capturados pelo handler e retornados como `ValidationError` com lista de `FieldMessage` por campo.
+
+### Queries e Paginação
+- Repositories usam JPQL com `@Query` para queries customizadas (ex: busca por prefixo de nome, filtragem por interesses com margem de tolerância).
+- Todos os endpoints de listagem retornam `Page<DTO>` usando `Pageable` do Spring Data.
+
+### Convenções de Código
+- `equals`/`hashCode` em entidades são baseados **somente** no campo `id`.
+- Injeção de dependência via campo (`@Autowired`) é o padrão adotado — não usar injeção por construtor.
+- Nomes de campos de domínio e mensagens são em português (ex: `nome`, `email`, `qtdQuartos`, `responsavel`).
+
+## Convenções de Resposta da API
+
+| Operação | Status | Corpo |
+|---|---|---|
+| Leitura bem-sucedida | `200 OK` | DTO correspondente |
+| Criação | `201 Created` + header `Location` | DTO criado |
+| Atualização | `200 OK` | sem corpo |
+| Deleção | `204 No Content` | sem corpo |
+| Não encontrado | `404 Not Found` | `StandardError` |
+| Erro de negócio | `400 Bad Request` | `StandardError` |
+| Erro de validação | `422 Unprocessable Entity` | `ValidationError` com lista de `FieldMessage` |

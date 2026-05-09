@@ -1,20 +1,35 @@
-# Testing Guidelines
+---
+inclusion: fileMatch
+fileMatchPattern: ['**/test/**/*.java', '**/repositories/**', '**/services/**', '**/resources/**']
+---
 
-## jqwik + Spring (@DataJpaTest) Integration Pattern
+# Diretrizes de Testes
 
-### O Problema
+## Perfil de Teste
 
-jqwik cria sua própria instância da classe de teste **separada** da instância gerenciada pelo Spring. Isso significa que campos anotados com `@Autowired` ficam `null` dentro de métodos `@Property`. Tentar usar o repositório diretamente nesses métodos causa `NullPointerException`.
+Todos os testes usam `@ActiveProfiles("test")`, que ativa H2 in-memory via `application-test.properties`. O seed data (`data.sql`) é carregado automaticamente na inicialização.
 
-Esse problema foi resolvido com o padrão abaixo. **Toda classe `@DataJpaTest` que também contenha `@Property` deve seguir este padrão obrigatoriamente.**
+**Fatos do seed data relevantes para testes:**
+- `Cliente` id=1, nome=`'Cliente'`
+- `User` id=2 é responsável pelas `Visita` id=1..30
+- `Visita` id=1 tem `cliente_id=1` e `responsavel_id=2`
+- `Role` id=1 existe
 
-### A Solução: ApplicationContextAware + TestContextManager
+---
 
-A classe de teste deve:
+## Padrão Obrigatório: jqwik + Spring (`@DataJpaTest`)
+
+### Problema
+
+jqwik instancia a classe de teste **separadamente** do Spring, fazendo com que campos `@Autowired` fiquem `null` dentro de métodos `@Property`, causando `NullPointerException`.
+
+### Solução: `ApplicationContextAware` + `TestContextManager`
+
+**Toda classe `@DataJpaTest` que contenha métodos `@Property` DEVE seguir este padrão:**
 
 1. Implementar `ApplicationContextAware`
-2. Manter um campo estático `sharedXxxRepository` populado pelo Spring via `setApplicationContext`
-3. Expor um método `getRepository()` que retorna o repositório correto dependendo do contexto (JUnit ou jqwik)
+2. Manter um campo estático `sharedXxxRepository` populado via `setApplicationContext`
+3. Expor `getRepository()` que resolve o repositório correto conforme o contexto (JUnit ou jqwik)
 
 ```java
 @DataJpaTest
@@ -25,7 +40,6 @@ class XxxRepositoryTest implements ApplicationContextAware {
     @Autowired
     private XxxRepository xxxRepository;
 
-    // Compartilhado com instâncias jqwik (que não têm injeção Spring)
     private static XxxRepository sharedXxxRepository;
 
     @Override
@@ -36,7 +50,6 @@ class XxxRepositoryTest implements ApplicationContextAware {
     private XxxRepository getRepository() {
         if (xxxRepository != null) return xxxRepository;
         if (sharedXxxRepository != null) return sharedXxxRepository;
-        // Fallback: inicializa contexto Spring para instância jqwik
         try {
             TestContextManager tcm = new TestContextManager(XxxRepositoryTest.class);
             tcm.prepareTestInstance(this);
@@ -46,22 +59,20 @@ class XxxRepositoryTest implements ApplicationContextAware {
         return xxxRepository;
     }
 
-    // Métodos @Test usam xxxRepository diretamente (injetado pelo Spring)
     @Test
     void someTest() {
-        xxxRepository.findAll(); // OK
+        xxxRepository.findAll(); // @Test: usar campo @Autowired diretamente
     }
 
-    // Métodos @Property usam getRepository() (funciona em ambos os contextos)
     @Property(tries = 50)
-    void someProperty(@ForAll @IntRange(min=1, max=5) int value) {
-        XxxRepository repo = getRepository(); // SEMPRE usar getRepository() em @Property
-        repo.findAll(); // OK
+    void someProperty(@ForAll @IntRange(min = 1, max = 5) int value) {
+        XxxRepository repo = getRepository(); // @Property: SEMPRE usar getRepository()
+        repo.findAll();
     }
 }
 ```
 
-### Imports Necessários
+### Imports necessários
 
 ```java
 import net.jqwik.api.ForAll;
@@ -72,29 +83,20 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.test.context.TestContextManager;
 ```
 
-### Regras
+### Regras críticas
 
-- **Métodos `@Test`**: podem usar o campo `@Autowired` diretamente
-- **Métodos `@Property`**: SEMPRE usar `getRepository()` — nunca o campo diretamente
-- **`@AutoConfigureTestDatabase(replace = Replace.NONE)`**: obrigatório junto com `@DataJpaTest` para usar o H2 configurado no perfil `test` em vez do H2 padrão do slice
-- **`repo.flush()`**: chamar após `repo.save()` em `@Property` para garantir que os dados estão visíveis na mesma transação antes de executar a query
-- Usar `System.nanoTime()` ou UUID no email ao salvar entidades em `@Property` para evitar violação de constraint de unicidade entre as 50+ iterações
+| Contexto | Como acessar o repositório |
+|---|---|
+| Métodos `@Test` | Campo `@Autowired` diretamente |
+| Métodos `@Property` | **Sempre** via `getRepository()` |
 
-### Exemplo Real (ClienteRepositoryTest)
+- **`@AutoConfigureTestDatabase(replace = Replace.NONE)`** é obrigatório em todo `@DataJpaTest` para usar o H2 do perfil `test` em vez do H2 padrão do slice.
+- Chamar **`repo.flush()`** após `repo.save()` em `@Property` para garantir visibilidade dos dados na mesma transação antes de executar queries.
+- Usar **`System.nanoTime()` ou UUID** em campos únicos (ex: email) ao salvar entidades em `@Property`, evitando violações de constraint de unicidade entre as iterações.
 
-Ver `src/test/java/.../repositories/ClienteRepositoryTest.java` — implementação de referência completa com `findByNomePrefixMatchProperty` (Property 1) e `findByInteressesFilterCorrectnessProperty` (Property 2).
+### Referência de implementação
 
----
-
-## Perfil de Teste
-
-Todos os testes usam `@ActiveProfiles("test")`, que ativa o H2 in-memory via `application-test.properties`. O seed data (`data.sql`) é carregado automaticamente.
-
-**Fatos do seed data usados nos testes:**
-- Cliente id=1, nome='Cliente'
-- User id=2 é responsável pelas visitas id=1..30
-- Visita id=1 tem cliente_id=1 e responsavel_id=2
-- Role id=1 existe
+`ClienteRepositoryTest` é a implementação de referência completa, contendo `findByNomePrefixMatchProperty` e `findByInteressesFilterCorrectnessProperty`.
 
 ---
 
@@ -110,6 +112,6 @@ mvnw.cmd test -Dtest=ClienteRepositoryTest
 # Rodar um método específico
 mvnw.cmd test -Dtest=ClienteRepositoryTest#findByInteressesFilterCorrectnessProperty
 
-# Verificar cobertura JaCoCo (≥ 70%)
+# Verificar cobertura JaCoCo (mínimo 70% de linhas)
 mvnw.cmd verify
 ```
