@@ -17,14 +17,14 @@ Enriquecer a documentação Swagger da API CarteiraClientes adotando duas camada
   - Garantir que todos os imports sejam de `io.swagger.v3.oas.*`, `org.springframework.*` ou `jakarta.*` — nenhum `javax.*`
   - _Requisitos: 2.1, 2.2, 2.3, 2.4_
 
-- [ ] 2. Criar `ClienteResourceDocumentation` e enriquecer `ClienteDTO`
+- [x] 2. Criar `ClienteResourceDocumentation` e enriquecer `ClienteDTO`
   - Criar o pacote `resources/documentation/`
   - Criar a interface `ClienteResourceDocumentation` com `@Tag` e os 6 métodos anotados com `@Operation`, `@Parameter`, `@ApiResponse` e `@RequestBody` conforme o design
   - Adicionar `@Schema(example = ...)` nos 9 campos do `ClienteDTO`
   - Fazer `ClienteResource` implementar `ClienteResourceDocumentation`
   - _Requisitos: 1.1, 1.9, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6_
 
-  - [ ] 2.1 Criar a interface `ClienteResourceDocumentation`
+  - [x] 2.1 Criar a interface `ClienteResourceDocumentation`
     - Declarar os 6 métodos com `@Operation` (summary ≤ 120 chars, description com ≥ 1 frase), `@Parameter` para os 6 query params de `GET /clientes`, `@ApiResponse` para 200/201/204/404/422 conforme a tabela do design, e `@RequestBody` com exemplo de payload para `POST /clientes`
     - _Requisitos: 1.1, 3.1, 3.2, 3.4, 3.5, 3.6_
 

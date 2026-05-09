@@ -1,6 +1,7 @@
 package com.github.marcelomachadoxd.carteiraclientes.resources;
 
 import com.github.marcelomachadoxd.carteiraclientes.dto.ClienteDTO;
+import com.github.marcelomachadoxd.carteiraclientes.resources.documentation.ClienteResourceDocumentation;
 import com.github.marcelomachadoxd.carteiraclientes.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,7 +15,7 @@ import java.net.URI;
 
 @RestController
 @RequestMapping(value = "/clientes")
-public class    ClienteResource {
+public class    ClienteResource implements ClienteResourceDocumentation {
 
     @Autowired
     private ClienteService clienteService;
