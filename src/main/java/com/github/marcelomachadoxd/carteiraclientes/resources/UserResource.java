@@ -13,7 +13,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/users")
-public class UserResource {
+public class UserResource implements com.github.marcelomachadoxd.carteiraclientes.resources.documentation.UserResourceDocumentation {
 
     @Autowired
     private UserService userService;

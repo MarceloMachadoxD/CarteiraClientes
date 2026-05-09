@@ -63,7 +63,7 @@ Enriquecer a documentação Swagger da API CarteiraClientes adotando duas camada
   - Fazer `UserResource` implementar `UserResourceDocumentation`
   - _Requisitos: 1.3, 1.11, 5.1, 5.2, 5.3, 5.4_
 
-  - [~] 4.1 Criar a interface `UserResourceDocumentation`
+  - [x] 4.1 Criar a interface `UserResourceDocumentation`
     - Declarar os 4 métodos com `@Operation` (summary não vazio, description com ≥ 1 frase), `@ApiResponse` para 200/204/404/422 conforme a tabela do design, e `@RequestBody` com exemplo de payload de `UserInsertDTO` para `POST /users`
     - _Requisitos: 1.3, 5.1, 5.2, 5.3, 5.4_
 
