@@ -1,0 +1,16 @@
+{
+  "enabled": true,
+  "name": "Build Before Task",
+  "description": "Builda o projeto com Maven antes de uma task do Kiro ser executada, garantindo que o projeto compila corretamente antes de qualquer alteração.",
+  "version": "1",
+  "when": {
+    "type": "preTaskExecution"
+  },
+  "then": {
+    "type": "runCommand",
+    "command": "mvnw.cmd clean package -DskipTests",
+    "timeout": 0
+  },
+  "workspaceFolderName": "CarteiraClientes",
+  "shortName": "build-pre-task"
+}

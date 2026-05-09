@@ -1,0 +1,16 @@
+{
+  "enabled": true,
+  "name": "Run Tests After Task",
+  "description": "Executa os testes do projeto com Maven sempre que uma task do Kiro for concluída, garantindo que nenhuma regressão foi introduzida.",
+  "version": "1",
+  "when": {
+    "type": "postTaskExecution"
+  },
+  "then": {
+    "type": "runCommand",
+    "command": "mvnw.cmd test",
+    "timeout": 0
+  },
+  "workspaceFolderName": "CarteiraClientes",
+  "shortName": "run-tests-post-task"
+}

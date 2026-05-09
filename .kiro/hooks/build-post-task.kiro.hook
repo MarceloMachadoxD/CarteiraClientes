@@ -1,0 +1,16 @@
+{
+  "enabled": true,
+  "name": "Build After Task",
+  "description": "Builda o projeto com Maven após uma task do Kiro ser concluída, garantindo que as alterações não quebraram a compilação.",
+  "version": "1",
+  "when": {
+    "type": "postTaskExecution"
+  },
+  "then": {
+    "type": "runCommand",
+    "command": "mvnw.cmd clean package -DskipTests",
+    "timeout": 0
+  },
+  "workspaceFolderName": "CarteiraClientes",
+  "shortName": "build-post-task"
+}
