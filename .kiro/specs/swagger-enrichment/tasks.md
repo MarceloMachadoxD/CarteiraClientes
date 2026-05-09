@@ -8,7 +8,7 @@ Enriquecer a documentação Swagger da API CarteiraClientes adotando duas camada
 
 ## Tasks
 
-- [ ] 1. Enriquecer o `SwaggerConfig`
+- [x] 1. Enriquecer o `SwaggerConfig`
   - Enriquecer o bean `OpenAPI` no `SwaggerConfig` com:
     - `SecurityScheme` do tipo `http`, `scheme = "bearer"`, `bearerFormat = "JWT"`, nome `"bearerAuth"`
     - `SecurityRequirement` global com `addList("bearerAuth")`
