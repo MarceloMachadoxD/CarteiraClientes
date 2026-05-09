@@ -64,7 +64,8 @@ Add JaCoCo coverage enforcement, jqwik property-based tests for repository queri
 - [ ] 3. Repository tests — VisitaRepository
   - [ ] 3.1 Create VisitaRepositoryTest with @DataJpaTest
     - Create `src/test/java/.../repositories/VisitaRepositoryTest.java`
-    - Annotate with `@DataJpaTest` and `@ActiveProfiles("test")`
+    - Annotate with `@DataJpaTest`, `@AutoConfigureTestDatabase(replace = Replace.NONE)`, and `@ActiveProfiles("test")`
+    - **Apply the jqwik+Spring pattern** (see `.kiro/steering/testing.md`): implement `ApplicationContextAware`, keep static shared fields for `VisitaRepository`, `UserRepository`, `ClienteRepository`, and expose `getRepository()` helpers — required because task 3.2 adds `@Property` methods to this class
     - Inject `VisitaRepository`, `UserRepository`, `ClienteRepository` via `@Autowired`
     - Write `@Test findByResponsavelId_withExistingId_shouldReturnMatchingVisitas`: call `findByResponsavelId(2L, PageRequest.of(0,10))`, assert `totalElements >= 1` and every item has `responsavel.id == 2`
     - Write `@Test findByClienteId_withExistingId_shouldReturnMatchingVisitas`: call `findByClienteId(1L, PageRequest.of(0,10))`, assert `totalElements >= 1` and every item has `cliente.id == 1`
@@ -192,6 +193,7 @@ Add JaCoCo coverage enforcement, jqwik property-based tests for repository queri
 
 - Tasks marked with `*` are optional and can be skipped for a faster MVP; the mandatory tests alone should be sufficient to reach 70% coverage
 - Property tests (2.2–2.5, 3.2) use jqwik `@Property` annotation — they run alongside JUnit 5 tests automatically because jqwik integrates with the JUnit Platform
+- **⚠️ jqwik + Spring integration:** jqwik creates its own test instance separate from Spring's, so `@Autowired` fields are `null` inside `@Property` methods. Every `@DataJpaTest` class with `@Property` methods MUST implement `ApplicationContextAware`, keep a static shared repository field, and expose a `getRepository()` helper — see `ClienteRepositoryTest.java` as the reference implementation and `.kiro/steering/testing.md` for the full pattern. This was the root cause of failures in tasks 2.1 and 2.2.
 - The `@Transactional` annotation on resource tests ensures each test method rolls back DB changes, keeping tests independent
 - `ClienteService.update` with a non-existing id throws `NoSuchElementException` (not caught by the service) — the resource test should document the actual HTTP status returned (likely 500 via the new generic handler added in task 9)
 - Seed data facts used across tests: client id=1 nome='Cliente', user id=2 is responsavel for visits 1–30, visit id=1 has cliente_id=1 and responsavel_id=2, role id=1 exists

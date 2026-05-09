@@ -325,17 +325,59 @@ src/test/java/.../carteiraclientes/
 
 `@DataJpaTest` loads only the JPA slice: entities, repositories, and H2. It does **not** load `@Service` or `@RestController` beans. The `data.sql` seed is loaded automatically because `spring.sql.init.mode` defaults to `embedded` for H2.
 
+#### ⚠️ jqwik + Spring Integration Pattern (MANDATORY)
+
+jqwik creates its own test instance **separate** from the Spring-managed instance, so `@Autowired` fields are `null` inside `@Property` methods. This was discovered during tasks 2.1 and 2.2 and caused `NullPointerException` until resolved. **Every `@DataJpaTest` class that also contains `@Property` methods MUST follow this pattern:**
+
 ```java
 @DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("test")
-class ClienteRepositoryTest {
-    @Autowired ClienteRepository clienteRepository;
-    // jqwik @Property methods for Properties 1–4
-    // JUnit @Test methods for edge cases
+class XxxRepositoryTest implements ApplicationContextAware {
+
+    @Autowired
+    private XxxRepository xxxRepository;
+
+    // Static reference populated by Spring; used by jqwik instances that lack injection
+    private static XxxRepository sharedXxxRepository;
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) {
+        sharedXxxRepository = applicationContext.getBean(XxxRepository.class);
+    }
+
+    private XxxRepository getRepository() {
+        if (xxxRepository != null) return xxxRepository;
+        if (sharedXxxRepository != null) return sharedXxxRepository;
+        try {
+            new TestContextManager(XxxRepositoryTest.class).prepareTestInstance(this);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to initialize Spring context for property test", e);
+        }
+        return xxxRepository;
+    }
+
+    // @Test methods use xxxRepository directly (Spring-injected)
+    @Test void someTest() { xxxRepository.findAll(); }
+
+    // @Property methods ALWAYS use getRepository()
+    @Property(tries = 50)
+    void someProperty(@ForAll @IntRange(min=1, max=5) int value) {
+        XxxRepository repo = getRepository(); // never use the field directly here
+        repo.save(...);
+        repo.flush(); // flush after save to ensure visibility in same transaction
+    }
 }
 ```
 
-**Property test configuration:** Each `@Property` method in jqwik runs 100 tries by default. Tag each with a comment referencing the design property:
+**Additional rules for `@Property` methods:**
+- Always call `repo.flush()` after `repo.save()` before querying
+- Use `System.nanoTime()` or UUID in unique fields (e.g. `email`) to avoid constraint violations across iterations
+- `@AutoConfigureTestDatabase(replace = Replace.NONE)` is required to use the `test`-profile H2 instead of the slice default
+
+**Reference implementation:** `ClienteRepositoryTest.java` — contains Properties 1 and 2 using this pattern.
+
+**Property test configuration:** Tag each `@Property` with a comment referencing the design property:
 ```java
 // Feature: test-coverage-improvement, Property 1: findByNome returns only prefix-matching clients
 @Property(tries = 100)

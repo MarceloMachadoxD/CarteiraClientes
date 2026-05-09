@@ -13,6 +13,7 @@ Esta feature define os requisitos para elevar a cobertura de testes para pelo me
 - **Service_Test**: Teste unitário de serviço usando Mockito com `@ExtendWith(SpringExtension.class)`
 - **Repository_Test**: Teste de repositório usando `@DataJpaTest` com banco H2 em memória
 - **Cobertura**: Percentual de linhas/branches do código de produção exercitados pelos testes, medido pelo JaCoCo
+- **jqwik_Spring_Pattern**: Padrão obrigatório para classes `@DataJpaTest` que também contêm `@Property` — resolve o problema de injeção nula causado pelo jqwik criar instâncias separadas da classe de teste fora do contexto Spring
 - **ClienteService**: Serviço responsável pela lógica de negócio de clientes
 - **VisitaService**: Serviço responsável pela lógica de negócio de visitas
 - **UserService**: Serviço responsável pela lógica de negócio de usuários
@@ -41,6 +42,20 @@ Esta feature define os requisitos para elevar a cobertura de testes para pelo me
 3. WHEN a cobertura de linhas das classes não excluídas está abaixo de 70%, THE Suite_de_Testes SHALL falhar o build com mensagem de erro indicando a cobertura insuficiente; IF a cobertura está igual ou acima de 70%, THE Suite_de_Testes SHALL concluir o build com sucesso
 4. WHERE o JaCoCo está configurado, THE Suite_de_Testes SHALL excluir da medição de cobertura as classes `CarteiraClientesApplication` e `SwaggerConfig`
 5. THE Suite_de_Testes SHALL aplicar a regra de cobertura mínima de 70% somente sobre as classes não excluídas pelo critério 4
+
+---
+
+### Requirement 0: Padrão de Integração jqwik + Spring em @DataJpaTest
+
+**User Story:** Como desenvolvedor, quero um padrão estabelecido para combinar testes jqwik `@Property` com `@DataJpaTest`, para que eu não perca tempo depurando `NullPointerException` causado pela instância separada que o jqwik cria fora do contexto Spring.
+
+#### Critérios de Aceitação
+
+1. WHEN uma classe de teste é anotada com `@DataJpaTest` e contém métodos `@Property` do jqwik, THE Repository_Test SHALL implementar `ApplicationContextAware` e manter um campo estático do repositório populado via `setApplicationContext`, conforme o jqwik_Spring_Pattern
+2. WHEN um método `@Property` precisa acessar um repositório Spring, THE Repository_Test SHALL usar um método `getRepository()` que retorna o campo `@Autowired` se disponível, o campo estático compartilhado como fallback, ou inicializa o contexto via `TestContextManager.prepareTestInstance(this)` como último recurso
+3. WHEN uma entidade é salva dentro de um método `@Property`, THE Repository_Test SHALL chamar `repo.flush()` após `repo.save()` para garantir visibilidade dos dados na mesma transação
+4. WHEN uma entidade com campo único (ex: `email`) é salva em múltiplas iterações de um `@Property`, THE Repository_Test SHALL usar `System.nanoTime()` ou UUID para garantir unicidade e evitar violação de constraint entre as iterações
+5. THE Repository_Test SHALL incluir a anotação `@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)` junto com `@DataJpaTest` para usar o H2 configurado no perfil `test` em vez do H2 padrão do slice
 
 ---
 
