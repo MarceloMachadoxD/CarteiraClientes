@@ -1,0 +1,13 @@
+{
+  "enabled": true,
+  "name": "Commit After Task Success",
+  "description": "Após a conclusão de uma task, se o build e os testes passaram com sucesso, gera um commit com o título da task como mensagem.",
+  "version": "1",
+  "when": {
+    "type": "postTaskExecution"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Uma task do spec acabou de ser concluída. Verifique o output dos hooks \"Build After Task\" e \"Run Tests After Task\" que foram executados neste mesmo ciclo de postTaskExecution. Se ambos terminaram com sucesso (BUILD SUCCESS e testes passando), faça um commit com todas as alterações staged/unstaged usando como mensagem de commit exatamente o título da task que foi concluída (sem prefixos adicionais). Use `git add -A` antes do commit. Se algum dos dois falhou, não faça o commit e informe o motivo."
+  }
+}
