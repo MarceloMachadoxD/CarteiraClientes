@@ -43,7 +43,7 @@ Enriquecer a documentação Swagger da API CarteiraClientes adotando duas camada
   - Fazer `VisitaResource` implementar `VisitaResourceDocumentation`
   - _Requisitos: 1.2, 1.10, 4.1, 4.2, 4.3, 4.4, 4.5_
 
-  - [~] 3.1 Criar a interface `VisitaResourceDocumentation`
+  - [x] 3.1 Criar a interface `VisitaResourceDocumentation`
     - Declarar os 6 métodos com `@Operation` (summary ≤ 10 palavras, description com ≥ 1 frase de domínio), `@Parameter` para `cliId` e `respId` com `required=false` e `example=1`, `@ApiResponse` para 200/204/404/422 conforme a tabela do design, e `@RequestBody` com exemplo de payload para `POST /visitas`
     - Atenção: `VisitaResource` tem dois métodos com o nome `findByClienteId` — a interface deve declarar ambos com as assinaturas exatas para resolução correta pelo Java
     - _Requisitos: 1.2, 4.1, 4.2, 4.4, 4.5_
