@@ -16,6 +16,7 @@ public class UserDTO {
     @Schema(example = "João Corretor")
     private String nome;
     @Email
+    @Schema(example = "joao.corretor@imobiliaria.com.br")
     private String email;
     @NotBlank
     Set<RoleDTO> acesso = new HashSet<>();

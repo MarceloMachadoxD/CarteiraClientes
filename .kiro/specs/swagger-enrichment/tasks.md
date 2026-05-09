@@ -67,7 +67,7 @@ Enriquecer a documentação Swagger da API CarteiraClientes adotando duas camada
     - Declarar os 4 métodos com `@Operation` (summary não vazio, description com ≥ 1 frase), `@ApiResponse` para 200/204/404/422 conforme a tabela do design, e `@RequestBody` com exemplo de payload de `UserInsertDTO` para `POST /users`
     - _Requisitos: 1.3, 5.1, 5.2, 5.3, 5.4_
 
-  - [~] 4.2 Adicionar `@Schema(example = ...)` nos campos de `UserDTO` e `UserInsertDTO`
+  - [x] 4.2 Adicionar `@Schema(example = ...)` nos campos de `UserDTO` e `UserInsertDTO`
     - `UserDTO`: `id=2`, `nome="João Corretor"`, `email="joao.corretor@imobiliaria.com.br"`
     - `UserInsertDTO`: `nome="João Corretor"`, `email="joao.corretor@imobiliaria.com.br"`, `acessoId=1`, `password="senha123"`
     - _Requisitos: 5.1_
