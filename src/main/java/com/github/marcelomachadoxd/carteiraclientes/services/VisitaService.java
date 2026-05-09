@@ -68,7 +68,11 @@ public class VisitaService {
     }
 
     public void delete(Long id) {
-        visitaRepository.deleteById(id);
+        try {
+            visitaRepository.deleteById(id);
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Visita não encontrada para o id: " + id);
+        }
     }
 
     public VisitaDTO insert(VisitaDTO visitaDTO) {

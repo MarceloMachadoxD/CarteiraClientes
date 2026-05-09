@@ -3,7 +3,9 @@ package com.github.marcelomachadoxd.carteiraclientes.repositories;
 import com.github.marcelomachadoxd.carteiraclientes.entities.Cliente;
 import net.jqwik.api.ForAll;
 import net.jqwik.api.Property;
+import net.jqwik.api.constraints.AlphaChars;
 import net.jqwik.api.constraints.IntRange;
+import net.jqwik.api.constraints.StringLength;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -220,6 +222,55 @@ class ClienteRepositoryTest implements ApplicationContextAware {
         assertTrue(result.getTotalElements() >= n,
                 "findByInteresses with all-zero params should return at least the " + n
                         + " clients just saved, but got " + result.getTotalElements());
+    }
+
+    // -------------------------------------------------------------------------
+    // Property 4: Cliente save/findById round-trip preserves all fields
+    // Feature: test-coverage-improvement, Property 4: Cliente save/findById round-trip preserves all fields
+    // Validates: Requirements 2.7
+    // -------------------------------------------------------------------------
+
+    @Property(tries = 50)
+    void saveAndFindByIdRoundTripProperty(
+            @ForAll @AlphaChars @StringLength(min = 1, max = 20) String nome,
+            @ForAll @IntRange(min = 0, max = 10) int qtdQuartos,
+            @ForAll @IntRange(min = 0, max = 10) int qtdBanheiros,
+            @ForAll @IntRange(min = 0, max = 10) int qtdVagas,
+            @ForAll @IntRange(min = 0, max = 500) int metragem,
+            @ForAll @IntRange(min = 0, max = 1000000) int valorMaximo) {
+
+        ClienteRepository repo = getRepository();
+
+        // Build a Cliente with the generated values; use System.nanoTime() to ensure unique email
+        Cliente cliente = new Cliente();
+        cliente.setNome(nome);
+        cliente.setEmail(nome + System.nanoTime() + "@test.com");
+        cliente.setQtdQuartos(qtdQuartos);
+        cliente.setQtdBanheiros(qtdBanheiros);
+        cliente.setQtdVagas(qtdVagas);
+        cliente.setMetragem(metragem);
+        cliente.setValorMaximo(valorMaximo);
+
+        Cliente saved = repo.save(cliente);
+        repo.flush();
+
+        Optional<Cliente> found = repo.findById(saved.getId());
+
+        assertTrue(found.isPresent(), "findById should return a present Optional after save");
+        Cliente retrieved = found.get();
+
+        assertEquals(nome, retrieved.getNome(),
+                "nome should be preserved after save/findById round-trip");
+        assertEquals(Integer.valueOf(qtdQuartos), retrieved.getQtdQuartos(),
+                "qtdQuartos should be preserved after save/findById round-trip");
+        assertEquals(Integer.valueOf(qtdBanheiros), retrieved.getQtdBanheiros(),
+                "qtdBanheiros should be preserved after save/findById round-trip");
+        assertEquals(Integer.valueOf(qtdVagas), retrieved.getQtdVagas(),
+                "qtdVagas should be preserved after save/findById round-trip");
+        assertEquals(Integer.valueOf(metragem), retrieved.getMetragem(),
+                "metragem should be preserved after save/findById round-trip");
+        assertEquals(Integer.valueOf(valorMaximo), retrieved.getValorMaximo(),
+                "valorMaximo should be preserved after save/findById round-trip");
     }
 
     // -------------------------------------------------------------------------

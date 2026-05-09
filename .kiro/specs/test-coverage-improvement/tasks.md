@@ -47,22 +47,22 @@ Add JaCoCo coverage enforcement, jqwik property-based tests for repository queri
     - **Property 2: findByInteresses filter correctness with margin**
     - **Validates: Requirements 2.3, 2.4, 2.6**
 
-  - [ ]* 2.4 Write property test for all-zero wildcard (Property 3)
+  - [x] 2.4 Write property test for all-zero wildcard (Property 3)
     - Add `@Property(tries = 20) void findByInteressesAllZeroReturnsAllProperty(...)` to `ClienteRepositoryTest`
     - Save N random clients (N between 1 and 5), call `findByInteresses(0,0,0,0,0,0, PageRequest.of(0,1000))`
     - Assert `totalElements >= N` (seed data already present)
     - **Property 3: findByInteresses with all-zero parameters returns all clients**
     - **Validates: Requirement 2.5**
 
-  - [ ]* 2.5 Write property test for save/findById round-trip (Property 4)
+  - [x] 2.5 Write property test for save/findById round-trip (Property 4)
     - Add `@Property(tries = 50) void saveAndFindByIdRoundTripProperty(...)` to `ClienteRepositoryTest`
     - Use jqwik `@ForAll` parameters for `nome` (String), `qtdQuartos`, `qtdBanheiros`, `qtdVagas`, `metragem`, `valorMaximo` (non-negative integers)
     - Save a `Cliente` with those values, retrieve via `findById`, assert all fields are equal
     - **Property 4: Cliente save/findById round-trip preserves all fields**
     - **Validates: Requirement 2.7**
 
-- [ ] 3. Repository tests — VisitaRepository
-  - [ ] 3.1 Create VisitaRepositoryTest with @DataJpaTest
+- [x] 3. Repository tests — VisitaRepository
+  - [x] 3.1 Create VisitaRepositoryTest with @DataJpaTest
     - Create `src/test/java/.../repositories/VisitaRepositoryTest.java`
     - Annotate with `@DataJpaTest`, `@AutoConfigureTestDatabase(replace = Replace.NONE)`, and `@ActiveProfiles("test")`
     - **Apply the jqwik+Spring pattern** (see `.kiro/steering/testing.md`): implement `ApplicationContextAware`, keep static shared fields for `VisitaRepository`, `UserRepository`, `ClienteRepository`, and expose `getRepository()` helpers — required because task 3.2 adds `@Property` methods to this class
@@ -74,7 +74,7 @@ Add JaCoCo coverage enforcement, jqwik property-based tests for repository queri
     - Write `@Test findByClienteAndResponsavelId_withNonExistingCombination_shouldReturnEmptyPage`: call `findByClienteAndResponsavelId(Long.MAX_VALUE, Long.MAX_VALUE, PageRequest.of(0,10))`, assert `totalElements == 0`
     - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5_
 
-  - [ ]* 3.2 Write property test for Visita repository queries (Property 5)
+  - [x] 3.2 Write property test for Visita repository queries (Property 5)
     - Add `@Property(tries = 30) void visitaRepositoryQueriesReturnOnlyMatchingRecordsProperty(...)` to `VisitaRepositoryTest`
     - Programmatically save a `Visita` with a known `responsavel` (user id=1) and `cliente` (id=1)
     - Assert `findByResponsavelId(1L, ...)` returns a page where every element has `responsavel.id == 1`
@@ -84,11 +84,11 @@ Add JaCoCo coverage enforcement, jqwik property-based tests for repository queri
     - **Property 5: Visita repository queries return only matching records**
     - **Validates: Requirements 3.1, 3.2, 3.3, 3.4, 3.5**
 
-- [ ] 4. Checkpoint — repository layer
+- [x] 4. Checkpoint — repository layer
   - Ensure all repository tests compile and pass with `mvnw.cmd test -pl . -Dtest="ClienteRepositoryTest,VisitaRepositoryTest"`. Ask the user if any issues arise.
 
-- [ ] 5. Service tests — gap-filling for ClienteService
-  - [ ] 5.1 Add missing test methods to ClienteServiceTest
+- [x] 5. Service tests — gap-filling for ClienteService
+  - [x] 5.1 Add missing test methods to ClienteServiceTest
     - Open existing `src/test/java/.../services/ClienteServiceTest.java`
     - Add `@BeforeEach` stub: `Mockito.doNothing().when(clienteRepository).deleteById(existingId)` and `Mockito.doThrow(RuntimeException.class).when(clienteRepository).deleteById(notExistId)`
     - Add `@Test deleteShouldCallDeleteById`: call `clienteService.delete(existingId)`, verify `clienteRepository.deleteById(existingId)` was invoked once
@@ -98,8 +98,8 @@ Add JaCoCo coverage enforcement, jqwik property-based tests for repository queri
     - Add `@Test findByInteressesShouldReturnPage`: stub `clienteRepository.findByInteresses(any(), any(), any(), any(), any(), any(), any())` to return `page`, call `clienteService.findByInteresses(0,2,1,1,60,200000,pageable)`, assert result is not null
     - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5_
 
-- [ ] 6. Service tests — gap-filling for UserService
-  - [ ] 6.1 Add missing test methods to UserServiceTest
+- [x] 6. Service tests — gap-filling for UserService
+  - [x] 6.1 Add missing test methods to UserServiceTest
     - Open existing `src/test/java/.../services/UserServiceTest.java`
     - Add `@BeforeEach` stub: `Mockito.doNothing().when(userRepository).deleteById(existingId)` and `Mockito.doThrow(RuntimeException.class).when(userRepository).deleteById(notExistId)`
     - Add stub for `userRepository.findAllPageable(any())` returning a `PageImpl<User>` with one user
@@ -108,8 +108,8 @@ Add JaCoCo coverage enforcement, jqwik property-based tests for repository queri
     - Add `@Test findAllPageableShouldReturnPage`: call `userService.findAllPageable(pageable)`, assert result is not null and `totalElements >= 1`
     - _Requirements: 4.6, 4.7, 4.8_
 
-- [ ] 7. Service tests — new RoleServiceTest
-  - [ ] 7.1 Create RoleServiceTest
+- [x] 7. Service tests — new RoleServiceTest
+  - [x] 7.1 Create RoleServiceTest
     - Create `src/test/java/.../services/RoleServiceTest.java`
     - Annotate with `@ExtendWith(SpringExtension.class)`
     - Declare `@InjectMocks RoleService roleService` and `@Mock RoleRepository roleRepository`
@@ -118,17 +118,17 @@ Add JaCoCo coverage enforcement, jqwik property-based tests for repository queri
     - Add `@Test insertShouldCallSaveAndReturnRoleDTO`: create `RoleDTO` with `nome="ROLE_TEST"`, call `roleService.insert(roleDTO)`, verify `roleRepository.save(any())` was invoked, assert returned `RoleDTO.getNome()` equals `"ROLE_TEST"`
     - _Requirements: 4.9, 4.10_
 
-- [ ] 8. Checkpoint — service layer
+- [x] 8. Checkpoint — service layer
   - Ensure all service tests pass with `mvnw.cmd test -pl . -Dtest="ClienteServiceTest,UserServiceTest,RoleServiceTest"`. Ask the user if any issues arise.
 
-- [ ] 9. Add generic RuntimeException handler to ResourceExceptionHandler
+- [x] 9. Add generic RuntimeException handler to ResourceExceptionHandler
   - Open `src/main/java/.../resources/exceptions/ResourceExceptionHandler.java`
   - Add a new `@ExceptionHandler(RuntimeException.class)` method that returns HTTP 500 with a `StandardError` body containing `timestamp`, `status=500`, `error="Internal Server Error"`, `message=e.getMessage()`, and `path=request.getRequestURI()`
   - This handler must be ordered after the specific handlers so it only catches unmapped exceptions
   - _Requirements: 8.4_
 
-- [ ] 10. Resource tests — ClienteResource
-  - [ ] 10.1 Create ClienteResourceTest
+- [x] 10. Resource tests — ClienteResource
+  - [x] 10.1 Create ClienteResourceTest
     - Create `src/test/java/.../resources/ClienteResourceTest.java`
     - Annotate with `@SpringBootTest`, `@AutoConfigureMockMvc`, `@ActiveProfiles("test")`, `@Transactional`
     - Inject `MockMvc` and `ObjectMapper` via `@Autowired`
@@ -145,8 +145,8 @@ Add JaCoCo coverage enforcement, jqwik property-based tests for repository queri
     - Add `@Test unmappedRuntimeException_shouldReturn500`: use `@MockBean ClienteService` to stub `findById(anyLong())` throwing `new RuntimeException("unexpected")`, `GET /clientes/id/1`, assert status 500
     - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7, 5.8, 5.9, 8.1, 8.2, 8.3, 8.4_
 
-- [ ] 11. Resource tests — VisitaResource
-  - [ ] 11.1 Create VisitaResourceTest
+- [x] 11. Resource tests — VisitaResource
+  - [x] 11.1 Create VisitaResourceTest
     - Create `src/test/java/.../resources/VisitaResourceTest.java`
     - Annotate with `@SpringBootTest`, `@AutoConfigureMockMvc`, `@ActiveProfiles("test")`, `@Transactional`
     - Inject `MockMvc` and `ObjectMapper` via `@Autowired`
@@ -161,8 +161,8 @@ Add JaCoCo coverage enforcement, jqwik property-based tests for repository queri
     - Add `@Test delete_withNonExistingId_shouldReturn404`: `DELETE /visitas/999999`, assert status 404
     - _Requirements: 6.1, 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 6.8_
 
-- [ ] 12. Resource tests — UserResource and RoleResource
-  - [ ] 12.1 Create UserResourceTest
+- [x] 12. Resource tests — UserResource and RoleResource
+  - [x] 12.1 Create UserResourceTest
     - Create `src/test/java/.../resources/UserResourceTest.java`
     - Annotate with `@SpringBootTest`, `@AutoConfigureMockMvc`, `@ActiveProfiles("test")`, `@Transactional`
     - Inject `MockMvc` and `ObjectMapper` via `@Autowired`
@@ -175,7 +175,7 @@ Add JaCoCo coverage enforcement, jqwik property-based tests for repository queri
     - Add `@Test delete_withNonExistingId_shouldReturn400`: `DELETE /users/999999`, assert status 400
     - _Requirements: 7.1, 7.2, 7.3, 7.4, 7.5, 7.8, 7.9_
 
-  - [ ] 12.2 Create RoleResourceTest
+  - [x] 12.2 Create RoleResourceTest
     - Create `src/test/java/.../resources/RoleResourceTest.java`
     - Annotate with `@SpringBootTest`, `@AutoConfigureMockMvc`, `@ActiveProfiles("test")`, `@Transactional`
     - Inject `MockMvc` and `ObjectMapper` via `@Autowired`
@@ -183,7 +183,7 @@ Add JaCoCo coverage enforcement, jqwik property-based tests for repository queri
     - Add `@Test insert_withValidBody_shouldReturn201`: `POST /roles` with JSON `{"nome":"ROLE_TEST"}`, assert status 201 and `Location` header exists
     - _Requirements: 7.6, 7.7_
 
-- [ ] 13. Final checkpoint — full build verification
+- [x] 13. Final checkpoint — full build verification
   - Run `mvnw.cmd test` and confirm all tests pass
   - Run `mvnw.cmd verify` and confirm the JaCoCo check passes (≥ 70% line coverage)
   - If coverage is below 70%, identify which classes are under-covered from `target/site/jacoco/index.html` and add targeted tests
