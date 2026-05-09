@@ -47,7 +47,12 @@ public class UserService {
 
     public void delete(Long id) {
         try {
+            if (!userRepository.existsById(id)) {
+                throw new ResourceNotFoundException("Usuario não encontrado para o id: " + id);
+            }
             userRepository.deleteById(id);
+        } catch (ResourceNotFoundException e) {
+            throw new DatabaseException("Erro ao deletar Usuario " + id);
         } catch (Exception e) {
             throw new DatabaseException("Erro ao deletar Usuario " + id);
         }

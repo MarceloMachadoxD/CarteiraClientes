@@ -8,19 +8,16 @@ inclusion: always
 
 | Biblioteca | Versão | Escopo |
 |---|---|---|
-| Java | 11 | runtime |
-| Spring Boot (parent BOM) | 2.4.5 | build |
-| spring-boot-starter-web | 3.0.0 | compile |
-| spring-boot-starter-data-jpa | 3.0.0 | compile |
-| spring-boot-starter-validation | 3.0.0 | compile |
-| hibernate-entitymanager | 5.6.14.Final | compile |
-| H2 Database | 2.1.214 | runtime |
-| springfox-swagger2 + swagger-ui | 2.9.2 | compile |
-| spring-boot-starter-test | 3.0.0 | test |
-| jqwik | 1.7.4 | test |
-| JaCoCo Maven Plugin | 0.8.8 | build |
-
-> **Atenção:** O parent BOM é Spring Boot 2.4.5, mas os starters individuais estão fixados em 3.0.0. Não altere versões sem verificar compatibilidade entre essas duas linhas.
+| Java | 25 | runtime |
+| Spring Boot (parent BOM) | 4.0.0 | build |
+| spring-boot-starter-web | gerenciado pelo BOM | compile |
+| spring-boot-starter-data-jpa | gerenciado pelo BOM | compile |
+| spring-boot-starter-validation | gerenciado pelo BOM | compile |
+| H2 Database | gerenciado pelo BOM | runtime |
+| springdoc-openapi-starter-webmvc-ui | 3.0.3 | compile |
+| spring-boot-starter-test | gerenciado pelo BOM | test |
+| jqwik | 1.9.3 | test |
+| JaCoCo Maven Plugin | 0.8.13 | build |
 
 ## Build System
 
@@ -59,7 +56,7 @@ mvnw.cmd verify
 
 ### Produção
 Requer variáveis de ambiente externas:
-- `APP_PROFILE`, `CLIENT_ID`, `CLIENT_SECRET`, `JWT_SECRET`, `JWT_DURATION`
+- `APP_PROFILE`, `JWT_SECRET`, `JWT_DURATION`
 
 ## Cobertura de Código (JaCoCo)
 
@@ -69,6 +66,6 @@ Requer variáveis de ambiente externas:
 
 ## Acesso em Desenvolvimento
 
-- Swagger UI: `http://localhost:8080/swagger-ui.html`
+- Swagger UI: `http://localhost:8080/swagger-ui/index.html`
 - H2 Console: `http://localhost:8080/h2-console`
 - Coleções Postman: `src/main/resources/postman-requests/`

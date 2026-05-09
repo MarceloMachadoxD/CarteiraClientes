@@ -66,7 +66,12 @@ public class ClienteService {
 
     public void delete(Long id) {
         try {
-        clienteRepository.deleteById(id);
+            if (!clienteRepository.existsById(id)) {
+                throw new ResourceNotFoundException("Cliente não encontrado para o id: " + id);
+            }
+            clienteRepository.deleteById(id);
+        } catch (ResourceNotFoundException e) {
+            throw new DatabaseException("Erro ao deletar cliente " + id);
         } catch (Exception e) {
             throw new DatabaseException("Erro ao deletar cliente " + id);
         }

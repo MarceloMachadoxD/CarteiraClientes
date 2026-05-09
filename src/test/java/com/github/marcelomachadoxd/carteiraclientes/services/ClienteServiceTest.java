@@ -13,7 +13,9 @@ import org.mockito.Mockito;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -27,7 +29,8 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-@ExtendWith(SpringExtension.class)
+@ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 public class ClienteServiceTest {
 
     @InjectMocks
@@ -63,6 +66,8 @@ public class ClienteServiceTest {
         Mockito.when(clienteRepository.findByNome(eq(notExistNome), any())).thenReturn(new PageImpl<>(List.of()));
         Mockito.doNothing().when(clienteRepository).deleteById(existingId);
         Mockito.doThrow(RuntimeException.class).when(clienteRepository).deleteById(notExistId);
+        Mockito.when(clienteRepository.existsById(existingId)).thenReturn(true);
+        Mockito.when(clienteRepository.existsById(notExistId)).thenReturn(false);
         Mockito.when(clienteRepository.findByInteresses(any(), any(), any(), any(), any(), any(), any())).thenReturn(page);
     }
 

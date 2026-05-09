@@ -2,7 +2,7 @@ package com.github.marcelomachadoxd.carteiraclientes.entities;
 
 import com.github.marcelomachadoxd.carteiraclientes.dto.VisitaDTO;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.Instant;
 import java.util.Objects;
 

@@ -69,7 +69,12 @@ public class VisitaService {
 
     public void delete(Long id) {
         try {
+            if (!visitaRepository.existsById(id)) {
+                throw new ResourceNotFoundException("Visita não encontrada para o id: " + id);
+            }
             visitaRepository.deleteById(id);
+        } catch (ResourceNotFoundException e) {
+            throw e;
         } catch (Exception e) {
             throw new ResourceNotFoundException("Visita não encontrada para o id: " + id);
         }

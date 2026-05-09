@@ -17,7 +17,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +29,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-@ExtendWith(SpringExtension.class)
+@ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 public class UserServiceTest {
 
     @InjectMocks
@@ -69,6 +72,8 @@ public class UserServiceTest {
 
         Mockito.doNothing().when(userRepository).deleteById(existingId);
         Mockito.doThrow(RuntimeException.class).when(userRepository).deleteById(notExistId);
+        Mockito.when(userRepository.existsById(existingId)).thenReturn(true);
+        Mockito.when(userRepository.existsById(notExistId)).thenReturn(false);
 
         Page<User> userPage = new PageImpl<>(List.of(user));
         Mockito.when(userRepository.findAllPageable(any())).thenReturn(userPage);
