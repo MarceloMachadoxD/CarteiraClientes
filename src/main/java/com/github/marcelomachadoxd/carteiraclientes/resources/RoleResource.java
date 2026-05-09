@@ -1,6 +1,7 @@
 package com.github.marcelomachadoxd.carteiraclientes.resources;
 
 import com.github.marcelomachadoxd.carteiraclientes.dto.RoleDTO;
+import com.github.marcelomachadoxd.carteiraclientes.resources.documentation.RoleResourceDocumentation;
 import com.github.marcelomachadoxd.carteiraclientes.services.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/roles")
-public class RoleResource implements com.github.marcelomachadoxd.carteiraclientes.resources.documentation.RoleResourceDocumentation {
+public class RoleResource implements RoleResourceDocumentation {
 
     @Autowired
     private RoleService roleService;
