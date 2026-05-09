@@ -5,10 +5,11 @@ import net.jqwik.api.ForAll;
 import net.jqwik.api.Property;
 import net.jqwik.api.constraints.AlphaChars;
 import net.jqwik.api.constraints.StringLength;
-import net.jqwik.api.lifecycle.BeforeProperty;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
+import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -20,22 +21,34 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Property-based tests for ClienteRepository using jqwik.
  *
- * jqwik runs on a separate JUnit Platform engine and creates its own test instances,
- * bypassing Spring's @Autowired injection. We use TestContextManager to manually
- * bootstrap the Spring context and inject dependencies before each property run.
+ * Uses ApplicationContextAware + TestContextManager pattern to ensure Spring
+ * context is available both in JUnit (@Test) and jqwik (@Property) contexts.
  */
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("test")
-class ClienteRepositoryPropertyTest {
+class ClienteRepositoryPropertyTest implements ApplicationContextAware {
 
     @Autowired
     private ClienteRepository clienteRepository;
 
-    @BeforeProperty
-    void injectSpringDependencies() throws Exception {
-        TestContextManager testContextManager = new TestContextManager(getClass());
-        testContextManager.prepareTestInstance(this);
+    private static ClienteRepository sharedClienteRepository;
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) {
+        sharedClienteRepository = applicationContext.getBean(ClienteRepository.class);
+    }
+
+    private ClienteRepository getRepository() {
+        if (clienteRepository != null) return clienteRepository;
+        if (sharedClienteRepository != null) return sharedClienteRepository;
+        try {
+            TestContextManager tcm = new TestContextManager(ClienteRepositoryPropertyTest.class);
+            tcm.prepareTestInstance(this);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to initialize Spring context for property test", e);
+        }
+        return clienteRepository;
     }
 
     // Feature: test-coverage-improvement, Property 1: findByNome returns only prefix-matching clients (case-insensitive)
@@ -43,6 +56,8 @@ class ClienteRepositoryPropertyTest {
     @Property(tries = 100)
     void findByNomePrefixMatchProperty(
             @ForAll @AlphaChars @StringLength(min = 1, max = 10) String prefix) {
+
+        ClienteRepository repo = getRepository();
 
         // Save a client whose name starts with the prefix (uppercase first letter).
         // Use a unique suffix to avoid collisions across the 100 tries.
@@ -53,12 +68,13 @@ class ClienteRepositoryPropertyTest {
         Cliente cliente = new Cliente();
         cliente.setNome(clientName);
         cliente.setEmail(prefix.toLowerCase() + System.nanoTime() + "@pbt.test");
-        Cliente saved = clienteRepository.save(cliente);
+        Cliente saved = repo.save(cliente);
+        repo.flush();
 
         try {
             // Search using the lowercase prefix
             Pageable pageable = PageRequest.of(0, 100);
-            Page<Cliente> result = clienteRepository.findByNome(prefix.toLowerCase(), pageable);
+            Page<Cliente> result = repo.findByNome(prefix.toLowerCase(), pageable);
 
             // Property: every returned client's name must start with the prefix (case-insensitive)
             result.getContent().forEach(c ->
@@ -77,7 +93,7 @@ class ClienteRepositoryPropertyTest {
                             + "' should appear in results for prefix '" + prefix + "'");
         } finally {
             // Clean up to avoid data accumulation across tries
-            clienteRepository.deleteById(saved.getId());
+            repo.deleteById(saved.getId());
         }
     }
 }

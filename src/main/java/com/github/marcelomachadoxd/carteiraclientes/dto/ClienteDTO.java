@@ -2,8 +2,8 @@ package com.github.marcelomachadoxd.carteiraclientes.dto;
 
 import com.github.marcelomachadoxd.carteiraclientes.entities.Cliente;
 
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Email;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Email;
 
 public class ClienteDTO {
 

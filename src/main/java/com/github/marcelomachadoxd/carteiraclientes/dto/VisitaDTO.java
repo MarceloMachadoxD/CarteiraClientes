@@ -2,8 +2,8 @@ package com.github.marcelomachadoxd.carteiraclientes.dto;
 
 import com.github.marcelomachadoxd.carteiraclientes.entities.Visita;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 import java.time.Instant;
 
 public class VisitaDTO {

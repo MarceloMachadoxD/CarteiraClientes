@@ -1,6 +1,6 @@
 package com.github.marcelomachadoxd.carteiraclientes.entities;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.Objects;
 
 @Entity

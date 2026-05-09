@@ -1,14 +1,14 @@
 package com.github.marcelomachadoxd.carteiraclientes.resources;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import com.github.marcelomachadoxd.carteiraclientes.dto.ClienteDTO;
 import com.github.marcelomachadoxd.carteiraclientes.services.ClienteService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Integration tests for ClienteResource.
  *
- * @SpyBean wraps the real ClienteService so all tests use the real implementation by default.
+ * @MockitoSpyBean wraps the real ClienteService so all tests use the real implementation by default.
  * Test 11 overrides findById via doThrow() to simulate an unmapped RuntimeException,
  * verifying the generic RuntimeException handler returns HTTP 500.
  *
@@ -41,9 +41,9 @@ class ClienteResourceTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    // @SpyBean wraps the real ClienteService so all methods use the real implementation by default.
+    // @MockitoSpyBean wraps the real ClienteService so all methods use the real implementation by default.
     // Test 11 overrides findById via doThrow() to simulate an unmapped RuntimeException.
-    @SpyBean
+    @MockitoSpyBean
     private ClienteService clienteService;
 
     private ClienteDTO validClienteDTO() {
