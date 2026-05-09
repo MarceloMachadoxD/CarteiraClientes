@@ -30,3 +30,42 @@ Ao redigir documentos de spec, misture os idiomas conforme necessário: prosa e 
 
 **Incorreto:**
 > "When a GET request is made to /clientes/id/{id} with an existing id, the resource should return 200."
+
+## Cabeçalhos Estruturais Obrigatórios em Inglês (requirements.md)
+
+A ferramenta de análise automática de requisitos (`analyzeRequirements`) exige que os cabeçalhos estruturais do `requirements.md` estejam **obrigatoriamente em inglês**, independentemente do idioma do conteúdo. Use sempre:
+
+| Cabeçalho obrigatório (inglês) | Equivalente em português (NÃO usar como cabeçalho) |
+|---|---|
+| `## Introduction` | ~~Introdução~~ |
+| `## Requirements` | ~~Requisitos~~ |
+| `### Requirement N: [Título]` | ~~Requisito N~~ |
+| `**User Story:**` | ~~História de Usuário~~ |
+| `#### Acceptance Criteria` | ~~Critérios de Aceitação~~ |
+
+O conteúdo dentro dessas seções (introdução, descrição dos requisitos, critérios, histórias de usuário) deve continuar em **português brasileiro**. Apenas os cabeçalhos e rótulos estruturais devem ser em inglês.
+
+**Correto:**
+```markdown
+## Introduction
+
+Atualização da stack do projeto para Java 25 e Spring Boot 4.0.0...
+
+## Requirements
+
+### Requirement 1: Atualização do Build System
+
+**User Story:** Como desenvolvedor, quero que o `pom.xml` use Java 25...
+
+#### Acceptance Criteria
+
+1. THE **Build_System** SHALL declarar `<java.version>25</java.version>`...
+```
+
+**Incorreto:**
+```markdown
+## Introdução
+## Requisitos
+### Requisito 1: Atualização do Build System
+#### Critérios de Aceitação
+```
