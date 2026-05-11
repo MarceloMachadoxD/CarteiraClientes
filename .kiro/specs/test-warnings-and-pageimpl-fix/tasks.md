@@ -123,7 +123,7 @@
     - Usar `tools.jackson.databind.ObjectMapper` (Jackson 3) para serialização/deserialização nos testes
     - _Requirements: 2.3, 3.3, 3.4, 3.5, 3.8_
 
-  - [~] 5.6 Verificar que o teste de exploração (Property 1 — PageImpl) agora passa
+  - [x] 5.6 Verificar que o teste de exploração (Property 1 — PageImpl) agora passa
     - **Property 1: Expected Behavior** - Estrutura JSON Estável nos Endpoints Paginados
     - **IMPORTANTE**: Re-executar o MESMO teste da tarefa 3 — NÃO escrever um novo teste
     - Chamar `GET /clientes` e verificar que o JSON contém os 7 campos: `content`, `totalElements`, `totalPages`, `number`, `size`, `first`, `last`
