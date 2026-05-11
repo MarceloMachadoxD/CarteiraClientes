@@ -80,7 +80,7 @@
 
 - [ ] 5. Correção do Bug 3 — Criar `PageResponse<T>` e atualizar os resources paginados
 
-  - [~] 5.1 Criar o DTO `PageResponse<T>` no pacote `dto`
+  - [x] 5.1 Criar o DTO `PageResponse<T>` no pacote `dto`
     - Criar o arquivo `src/main/java/com/github/marcelomachadoxd/carteiraclientes/dto/PageResponse.java`
     - Implementar o DTO genérico com os 7 campos obrigatórios: `content` (`List<T>`), `totalElements` (`long`), `totalPages` (`int`), `number` (`int`), `size` (`int`), `first` (`boolean`), `last` (`boolean`)
     - Implementar construtor `PageResponse(Page<T> page)` que mapeia todos os campos a partir do `Page<T>` recebido
