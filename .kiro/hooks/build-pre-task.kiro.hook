@@ -8,7 +8,7 @@
   },
   "then": {
     "type": "runCommand",
-    "command": "mvnw.cmd clean package -DskipTests",
+    "command": "mvnw.cmd clean package",
     "timeout": 0
   },
   "workspaceFolderName": "CarteiraClientes",

@@ -77,7 +77,7 @@ Enriquecer a documentação Swagger da API CarteiraClientes adotando duas camada
     - Verificar que nenhuma anotação Swagger foi adicionada diretamente nos métodos do controller
     - _Requisitos: 1.3, 1.11_
 
-- [ ] 5. Criar `RoleResourceDocumentation` e enriquecer `RoleDTO`
+- [x] 5. Criar `RoleResourceDocumentation` e enriquecer `RoleDTO`
   - Criar a interface `RoleResourceDocumentation` com `@Tag` e os 2 métodos anotados conforme o design
   - Adicionar `@Schema(example = ...)` nos campos de `RoleDTO`
   - Fazer `RoleResource` implementar `RoleResourceDocumentation`
@@ -91,7 +91,7 @@ Enriquecer a documentação Swagger da API CarteiraClientes adotando duas camada
     - Anotar `id=1` e `nome="ROLE_CORRETOR"`
     - _Requisitos: 6.2_
 
-  - [~] 5.3 Fazer `RoleResource` implementar `RoleResourceDocumentation`
+  - [x] 5.3 Fazer `RoleResource` implementar `RoleResourceDocumentation`
     - Adicionar `implements RoleResourceDocumentation` na declaração da classe
     - Verificar que nenhuma anotação Swagger foi adicionada diretamente nos métodos do controller
     - _Requisitos: 1.4, 1.12_
