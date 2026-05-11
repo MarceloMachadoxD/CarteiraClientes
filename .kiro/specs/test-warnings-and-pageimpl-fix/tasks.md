@@ -30,7 +30,7 @@
   - Marcar a tarefa como concluída quando os testes forem escritos, executados e passando no código não corrigido
   - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8_
 
-- [~] 3. Escrever teste de exploração da condição do bug (Bug 3 — Serialização de `PageImpl`)
+- [x] 3. Escrever teste de exploração da condição do bug (Bug 3 — Serialização de `PageImpl`)
   - **Property 1: Bug Condition** - PageImpl Serialization Warning
   - **IMPORTANTE**: Escrever este teste ANTES de implementar a correção do Bug 3
   - **OBJETIVO**: Confirmar que o warning de serialização de `PageImpl` existe no código não corrigido
