@@ -45,19 +45,15 @@ class PageImplSerializationBugExplorationTest {
 
     /**
      * Bug Condition — GET /clientes (endpoint paginado com Page<ClienteDTO>):
-     * O JSON retornado DEVE conter campos internos do PageImpl que evidenciam
-     * a serialização direta (bug confirmado).
+     * APÓS A CORREÇÃO (tarefa 5.2): ClienteResource agora retorna PageResponse<ClienteDTO>,
+     * portanto o JSON NÃO deve conter campos internos do PageImpl.
      *
-     * Campos internos do PageImpl presentes no JSON (não fazem parte de um DTO limpo):
-     * - "pageable": objeto com offset, pageNumber, pageSize, paged, sort, unpaged
-     * - "sort": objeto com empty, sorted, unsorted (duplicado — aparece em pageable e raiz)
-     * - "numberOfElements": contagem de elementos na página atual
-     * - "empty": boolean indicando se a página está vazia
+     * Este teste foi originalmente escrito para confirmar o bug (presença de campos internos).
+     * Após a correção do ClienteResource, o teste verifica o comportamento esperado:
+     * - Campos do PageResponse presentes: content, totalElements, totalPages, number, size, first, last
+     * - Campos internos do PageImpl AUSENTES: pageable, numberOfElements, empty, sort
      *
-     * Counterexample: GET /clientes → JSON contém "pageable" e "numberOfElements"
-     * (campos internos do PageImpl que não devem aparecer em um DTO estável)
-     *
-     * Validates: Requirements 1.3
+     * Validates: Requirements 1.3, 2.3
      */
     @Test
     void bugCondition_getClientes_paginado_jsonContemCamposInternosDoPageImpl() throws Exception {
@@ -70,18 +66,19 @@ class PageImplSerializationBugExplorationTest {
                         .param("valorMaximo", "0")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                // Campos esperados de paginação (presentes tanto em PageImpl quanto em PageResponse)
+                // Campos do PageResponse (presentes após a correção)
                 .andExpect(jsonPath("$.content").isArray())
                 .andExpect(jsonPath("$.totalElements").exists())
                 .andExpect(jsonPath("$.totalPages").exists())
                 .andExpect(jsonPath("$.number").exists())
                 .andExpect(jsonPath("$.size").exists())
-                // Campos INTERNOS do PageImpl — evidência do bug (serialização direta)
-                // Estes campos NÃO devem aparecer em um DTO limpo (PageResponse<T>)
-                .andExpect(jsonPath("$.pageable").exists())
-                .andExpect(jsonPath("$.numberOfElements").exists())
-                .andExpect(jsonPath("$.empty").exists())
-                .andExpect(jsonPath("$.sort").exists());
+                .andExpect(jsonPath("$.first").exists())
+                .andExpect(jsonPath("$.last").exists())
+                // Campos INTERNOS do PageImpl — NÃO devem existir após a correção
+                .andExpect(jsonPath("$.pageable").doesNotExist())
+                .andExpect(jsonPath("$.numberOfElements").doesNotExist())
+                .andExpect(jsonPath("$.empty").doesNotExist())
+                .andExpect(jsonPath("$.sort").doesNotExist());
     }
 
     /**

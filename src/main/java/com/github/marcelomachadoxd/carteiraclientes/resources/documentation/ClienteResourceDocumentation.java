@@ -1,6 +1,7 @@
 package com.github.marcelomachadoxd.carteiraclientes.resources.documentation;
 
 import com.github.marcelomachadoxd.carteiraclientes.dto.ClienteDTO;
+import com.github.marcelomachadoxd.carteiraclientes.dto.PageResponse;
 import com.github.marcelomachadoxd.carteiraclientes.resources.exceptions.StandardError;
 import com.github.marcelomachadoxd.carteiraclientes.resources.exceptions.ValidationError;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,7 +12,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
@@ -33,16 +33,16 @@ public interface ClienteResourceDocumentation {
         description = "Retorna uma lista paginada de clientes cujo nome começa com o prefixo informado."
     )
     @ApiResponse(responseCode = "200", description = "Lista de clientes retornada com sucesso",
-        content = @Content(schema = @Schema(implementation = Page.class)))
-    ResponseEntity<Page<ClienteDTO>> findByNome(String nome, Pageable pageable);
+        content = @Content(schema = @Schema(implementation = PageResponse.class)))
+    ResponseEntity<PageResponse<ClienteDTO>> findByNome(String nome, Pageable pageable);
 
     @Operation(
         summary = "Filtra clientes por perfil de interesse",
         description = "Retorna uma lista paginada de clientes cujo perfil de interesse em imóveis corresponde aos critérios informados, aplicando uma margem de tolerância percentual sobre valorMaximo e metragem."
     )
     @ApiResponse(responseCode = "200", description = "Lista de clientes filtrada com sucesso",
-        content = @Content(schema = @Schema(implementation = Page.class)))
-    ResponseEntity<Page<ClienteDTO>> findByInteresses(
+        content = @Content(schema = @Schema(implementation = PageResponse.class)))
+    ResponseEntity<PageResponse<ClienteDTO>> findByInteresses(
         @Parameter(
             name = "margem",
             description = "Percentual de margem de tolerância aplicado sobre valorMaximo e metragem. O valor 0 desativa o filtro para esse parâmetro.",

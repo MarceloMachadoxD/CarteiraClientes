@@ -91,7 +91,7 @@
     - _Preservation: dados retornados em content, totalElements, totalPages, number e size são idênticos aos que seriam retornados pelo PageImpl para os mesmos parâmetros_
     - _Requirements: 2.3, 3.3, 3.4, 3.5, 3.8_
 
-  - [~] 5.2 Atualizar `ClienteResource` para retornar `PageResponse<ClienteDTO>`
+  - [x] 5.2 Atualizar `ClienteResource` para retornar `PageResponse<ClienteDTO>`
     - Substituir `import org.springframework.data.domain.Page` por `import com.github.marcelomachadoxd.carteiraclientes.dto.PageResponse` (manter `Pageable`)
     - Alterar o tipo de retorno de `findByNome` de `ResponseEntity<Page<ClienteDTO>>` para `ResponseEntity<PageResponse<ClienteDTO>>`
     - Alterar o tipo de retorno de `findByInteresses` de `ResponseEntity<Page<ClienteDTO>>` para `ResponseEntity<PageResponse<ClienteDTO>>`
