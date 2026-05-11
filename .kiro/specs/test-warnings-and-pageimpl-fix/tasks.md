@@ -44,7 +44,7 @@
   - Marcar a tarefa como concluída quando o teste for escrito, executado e a falha documentada
   - _Requirements: 1.3_
 
-- [ ] 4. Correção dos Bugs 1 e 2 — Declarar `mockito-core` como `-javaagent` no `pom.xml`
+- [x] 4. Correção dos Bugs 1 e 2 — Declarar `mockito-core` como `-javaagent` no `pom.xml`
 
   - [x] 4.1 Verificar a versão do `mockito-core` gerenciada pelo BOM
     - Executar `mvnw.cmd dependency:tree -Dincludes=org.mockito:mockito-core` para obter a versão exata gerenciada pelo `spring-boot-starter-parent` 4.0.0
@@ -71,7 +71,7 @@
     - **RESULTADO ESPERADO**: Teste PASSA (confirma que os Bugs 1 e 2 estão corrigidos)
     - _Requirements: 2.1, 2.2_
 
-  - [~] 4.4 Verificar que os testes de preservação ainda passam após a correção dos Bugs 1 e 2
+  - [x] 4.4 Verificar que os testes de preservação ainda passam após a correção dos Bugs 1 e 2
     - **Property 2: Preservation** - Suite de Testes Passa Sem Regressões
     - **IMPORTANTE**: Re-executar os MESMOS testes da tarefa 2 — NÃO escrever novos testes
     - Executar `mvnw.cmd test` e confirmar `failures=0` e `errors=0` com o mesmo número de testes
