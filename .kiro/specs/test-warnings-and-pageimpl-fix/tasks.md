@@ -51,7 +51,7 @@
     - Anotar a versão encontrada (ex: `5.x.x`) para uso na `<argLine>`
     - _Requirements: 2.1, 2.2_
 
-  - [~] 4.2 Adicionar `maven-surefire-plugin` com `<argLine>` customizada no `pom.xml`
+  - [x] 4.2 Adicionar `maven-surefire-plugin` com `<argLine>` customizada no `pom.xml`
     - Declarar o `maven-surefire-plugin` explicitamente na seção `<build><plugins>` do `pom.xml`
     - Configurar `<argLine>` concatenando `${argLine}` (agente JaCoCo) com `-javaagent` apontando para o JAR do `mockito-core` no repositório Maven local
     - Usar `${settings.localRepository}` para resolver o caminho do repositório de forma portável
