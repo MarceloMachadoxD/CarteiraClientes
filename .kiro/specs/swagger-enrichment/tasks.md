@@ -87,7 +87,7 @@ Enriquecer a documentação Swagger da API CarteiraClientes adotando duas camada
     - Declarar os 2 métodos com `@Operation` (summary ≤ 10 palavras, description com ≥ 1 frase), `@ApiResponse` para 200/201 com `content` referenciando `RoleDTO`, e `@RequestBody` com exemplo de payload `nome="ROLE_CORRETOR"` (sem `id`) para `POST /roles`
     - _Requisitos: 1.4, 6.1, 6.3, 6.4_
 
-  - [~] 5.2 Adicionar `@Schema(example = ...)` nos campos de `RoleDTO`
+  - [x] 5.2 Adicionar `@Schema(example = ...)` nos campos de `RoleDTO`
     - Anotar `id=1` e `nome="ROLE_CORRETOR"`
     - _Requisitos: 6.2_
 
