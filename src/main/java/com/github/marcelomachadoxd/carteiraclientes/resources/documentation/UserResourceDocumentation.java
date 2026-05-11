@@ -1,5 +1,6 @@
 package com.github.marcelomachadoxd.carteiraclientes.resources.documentation;
 
+import com.github.marcelomachadoxd.carteiraclientes.dto.PageResponse;
 import com.github.marcelomachadoxd.carteiraclientes.dto.UserDTO;
 import com.github.marcelomachadoxd.carteiraclientes.dto.UserInsertDTO;
 import com.github.marcelomachadoxd.carteiraclientes.resources.exceptions.StandardError;
@@ -11,7 +12,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
@@ -23,8 +23,8 @@ public interface UserResourceDocumentation {
         description = "Retorna uma lista paginada com todos os corretores cadastrados no sistema."
     )
     @ApiResponse(responseCode = "200", description = "Lista de corretores retornada com sucesso",
-        content = @Content(schema = @Schema(implementation = Page.class)))
-    ResponseEntity<Page<UserDTO>> findAllPageable(Pageable pageable);
+        content = @Content(schema = @Schema(implementation = PageResponse.class)))
+    ResponseEntity<PageResponse<UserDTO>> findAllPageable(Pageable pageable);
 
     @Operation(
         summary = "Busca corretor por ID",

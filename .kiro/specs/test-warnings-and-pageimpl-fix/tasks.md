@@ -108,7 +108,7 @@
     - Não alterar `findById`, `delete` e `insert` (endpoints não paginados ou de escrita)
     - _Requirements: 2.3, 3.5_
 
-  - [~] 5.4 Atualizar `UserResource` para retornar `PageResponse<UserDTO>`
+  - [x] 5.4 Atualizar `UserResource` para retornar `PageResponse<UserDTO>`
     - Substituir `import org.springframework.data.domain.Page` por `import com.github.marcelomachadoxd.carteiraclientes.dto.PageResponse` (manter `Pageable`)
     - Alterar o tipo de retorno de `findAllPageable` de `ResponseEntity<Page<UserDTO>>` para `ResponseEntity<PageResponse<UserDTO>>`
     - Envolver o resultado do service com `new PageResponse<>(users)` antes de passar ao `ResponseEntity.ok().body(...)`

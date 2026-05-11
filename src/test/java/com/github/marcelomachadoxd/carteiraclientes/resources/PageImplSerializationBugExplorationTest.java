@@ -83,30 +83,34 @@ class PageImplSerializationBugExplorationTest {
 
     /**
      * Bug Condition — GET /users (endpoint paginado com Page<UserDTO>):
-     * O JSON retornado DEVE conter campos internos do PageImpl que evidenciam
-     * a serialização direta (bug confirmado).
+     * APÓS A CORREÇÃO (tarefa 5.4): UserResource agora retorna PageResponse<UserDTO>,
+     * portanto o JSON NÃO deve conter campos internos do PageImpl.
      *
-     * Counterexample: GET /users → JSON contém "pageable" e "numberOfElements"
-     * (campos internos do PageImpl que não devem aparecer em um DTO estável)
+     * Este teste foi originalmente escrito para confirmar o bug (presença de campos internos).
+     * Após a correção do UserResource, o teste verifica o comportamento esperado:
+     * - Campos do PageResponse presentes: content, totalElements, totalPages, number, size, first, last
+     * - Campos internos do PageImpl AUSENTES: pageable, numberOfElements, empty, sort
      *
-     * Validates: Requirements 1.3
+     * Validates: Requirements 1.3, 2.3
      */
     @Test
     void bugCondition_getUsers_paginado_jsonContemCamposInternosDoPageImpl() throws Exception {
         mockMvc.perform(get("/users")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                // Campos esperados de paginação
+                // Campos do PageResponse (presentes após a correção)
                 .andExpect(jsonPath("$.content").isArray())
                 .andExpect(jsonPath("$.totalElements").exists())
                 .andExpect(jsonPath("$.totalPages").exists())
                 .andExpect(jsonPath("$.number").exists())
                 .andExpect(jsonPath("$.size").exists())
-                // Campos INTERNOS do PageImpl — evidência do bug (serialização direta)
-                .andExpect(jsonPath("$.pageable").exists())
-                .andExpect(jsonPath("$.numberOfElements").exists())
-                .andExpect(jsonPath("$.empty").exists())
-                .andExpect(jsonPath("$.sort").exists());
+                .andExpect(jsonPath("$.first").exists())
+                .andExpect(jsonPath("$.last").exists())
+                // Campos INTERNOS do PageImpl — NÃO devem existir após a correção
+                .andExpect(jsonPath("$.pageable").doesNotExist())
+                .andExpect(jsonPath("$.numberOfElements").doesNotExist())
+                .andExpect(jsonPath("$.empty").doesNotExist())
+                .andExpect(jsonPath("$.sort").doesNotExist());
     }
 
     /**
