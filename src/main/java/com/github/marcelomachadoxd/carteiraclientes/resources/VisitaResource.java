@@ -12,7 +12,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/visitas")
-public class VisitaResource {
+public class VisitaResource implements com.github.marcelomachadoxd.carteiraclientes.resources.documentation.VisitaResourceDocumentation {
 
     @Autowired
     private VisitaService visitaService;

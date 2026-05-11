@@ -1,26 +1,44 @@
 package com.github.marcelomachadoxd.carteiraclientes.dto;
 
 import com.github.marcelomachadoxd.carteiraclientes.entities.Cliente;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Email;
 
 public class ClienteDTO {
 
+    @Schema(example = "1")
     private Long id;
+
+    @Schema(example = "Maria Silva")
     private String nome;
+
     @Email
+    @Schema(example = "maria.silva@email.com")
     private String email;
+
     @DecimalMin("0")
+    @Schema(example = "2")
     private Integer qtdQuartos;
+
     @DecimalMin("0")
+    @Schema(example = "1")
     private Integer qtdBanheiros;
+
     @DecimalMin("0")
+    @Schema(example = "1")
     private Integer qtdVagas;
+
     @DecimalMin("0")
+    @Schema(example = "65")
     private Integer metragem;
+
     @DecimalMin("0")
+    @Schema(example = "350000")
     private Integer valorMaximo;
+
+    @Schema(example = "Prefere apartamento em andar alto, aceita condomínio até R$ 800")
     private String obs;
 
     public ClienteDTO() {

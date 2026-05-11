@@ -2,6 +2,7 @@ package com.github.marcelomachadoxd.carteiraclientes.dto;
 
 import com.github.marcelomachadoxd.carteiraclientes.entities.User;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
@@ -9,11 +10,15 @@ public class UserInsertDTO {
 
     private Long id;
     @NotBlank(message = "Campo Obrigatório")
+    @Schema(example = "João Corretor")
     private String nome;
     @Email(message = "Email inválido")
+    @Schema(example = "joao.corretor@imobiliaria.com.br")
     private String email;
+    @Schema(example = "1")
     private Long acessoId;
     @NotBlank(message = "Campo Obrigatório")
+    @Schema(example = "senha123")
     private String password;
 
     public UserInsertDTO() {

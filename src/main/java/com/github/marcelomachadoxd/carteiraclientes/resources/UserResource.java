@@ -2,6 +2,7 @@ package com.github.marcelomachadoxd.carteiraclientes.resources;
 
 import com.github.marcelomachadoxd.carteiraclientes.dto.UserDTO;
 import com.github.marcelomachadoxd.carteiraclientes.dto.UserInsertDTO;
+import com.github.marcelomachadoxd.carteiraclientes.resources.documentation.UserResourceDocumentation;
 import com.github.marcelomachadoxd.carteiraclientes.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,7 +14,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/users")
-public class UserResource {
+public class UserResource implements UserResourceDocumentation {
 
     @Autowired
     private UserService userService;
