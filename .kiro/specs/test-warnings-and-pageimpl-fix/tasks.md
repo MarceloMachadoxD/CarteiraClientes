@@ -78,7 +78,7 @@
     - Executar `mvnw.cmd verify` e confirmar cobertura JaCoCo ≥ 70%
     - **RESULTADO ESPERADO**: Testes PASSAM (confirma que não há regressões)
 
-- [ ] 5. Correção do Bug 3 — Criar `PageResponse<T>` e atualizar os resources paginados
+- [x] 5. Correção do Bug 3 — Criar `PageResponse<T>` e atualizar os resources paginados
 
   - [x] 5.1 Criar o DTO `PageResponse<T>` no pacote `dto`
     - Criar o arquivo `src/main/java/com/github/marcelomachadoxd/carteiraclientes/dto/PageResponse.java`
@@ -133,7 +133,7 @@
     - **RESULTADO ESPERADO**: Teste PASSA (confirma que o Bug 3 está corrigido)
     - _Requirements: 2.3_
 
-  - [~] 5.7 Verificar que os testes de preservação ainda passam após a correção do Bug 3
+  - [x] 5.7 Verificar que os testes de preservação ainda passam após a correção do Bug 3
     - **Property 2: Preservation** - Dados e Comportamento Funcional Inalterados
     - **IMPORTANTE**: Re-executar os MESMOS testes da tarefa 2 — NÃO escrever novos testes
     - Verificar que `GET /clientes/id/{id}` continua retornando `200 OK` com `ClienteDTO` correto
