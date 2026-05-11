@@ -14,7 +14,7 @@
   - Marcar a tarefa como concluída quando o teste for escrito, executado e a falha documentada
   - _Requirements: 1.1, 1.2_
 
-- [~] 2. Escrever testes de preservação (ANTES de implementar a correção)
+- [x] 2. Escrever testes de preservação (ANTES de implementar a correção)
   - **Property 2: Preservation** - Suite de Testes Passa Sem Regressões
   - **IMPORTANTE**: Seguir a metodologia observation-first
   - Observar: executar `mvnw.cmd test` no código não corrigido e registrar o número de testes que passam (`failures=0`, `errors=0`)
