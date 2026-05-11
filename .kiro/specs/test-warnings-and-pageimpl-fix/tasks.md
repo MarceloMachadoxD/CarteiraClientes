@@ -46,7 +46,7 @@
 
 - [ ] 4. Correção dos Bugs 1 e 2 — Declarar `mockito-core` como `-javaagent` no `pom.xml`
 
-  - [~] 4.1 Verificar a versão do `mockito-core` gerenciada pelo BOM
+  - [x] 4.1 Verificar a versão do `mockito-core` gerenciada pelo BOM
     - Executar `mvnw.cmd dependency:tree -Dincludes=org.mockito:mockito-core` para obter a versão exata gerenciada pelo `spring-boot-starter-parent` 4.0.0
     - Anotar a versão encontrada (ex: `5.x.x`) para uso na `<argLine>`
     - _Requirements: 2.1, 2.2_
