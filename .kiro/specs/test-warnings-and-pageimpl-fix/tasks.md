@@ -62,7 +62,7 @@
     - _Preservation: mvnw.cmd test continua com failures=0 e errors=0; mvnw.cmd verify continua com cobertura JaCoCo ≥ 70%_
     - _Requirements: 2.1, 2.2, 3.1, 3.7_
 
-  - [~] 4.3 Verificar que o teste de exploração (Property 1 — Self-Attach) agora passa
+  - [x] 4.3 Verificar que o teste de exploração (Property 1 — Self-Attach) agora passa
     - **Property 1: Expected Behavior** - Ausência de Warnings de Self-Attach
     - **IMPORTANTE**: Re-executar o MESMO teste da tarefa 1 — NÃO escrever um novo teste
     - O teste da tarefa 1 codifica o comportamento esperado (ausência dos warnings)
