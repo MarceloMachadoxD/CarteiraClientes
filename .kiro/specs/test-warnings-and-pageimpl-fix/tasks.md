@@ -144,7 +144,7 @@
     - **RESULTADO ESPERADO**: Testes PASSAM (confirma que não há regressões)
     - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8_
 
-- [~] 6. Checkpoint — Garantir que todos os testes passam
+- [x] 6. Checkpoint — Garantir que todos os testes passam
   - Executar `mvnw.cmd test` e confirmar `failures=0` e `errors=0` com o mesmo número de testes que passavam antes da correção
   - Executar `mvnw.cmd verify` e confirmar que a cobertura JaCoCo ≥ 70% continua sendo atingida com o novo `PageResponse<T>` incluído na cobertura
   - Confirmar que nenhum dos três warnings aparece: `"Mockito is currently self-attaching"`, `"terminally deprecated method in java.lang.System"`, `"Serializing PageImpl instances as-is is not supported"`
