@@ -1,6 +1,7 @@
 package com.github.marcelomachadoxd.carteiraclientes.resources;
 
 import com.github.marcelomachadoxd.carteiraclientes.dto.ClienteDTO;
+import com.github.marcelomachadoxd.carteiraclientes.dto.PageResponse;
 import com.github.marcelomachadoxd.carteiraclientes.resources.documentation.ClienteResourceDocumentation;
 import com.github.marcelomachadoxd.carteiraclientes.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +28,13 @@ public class    ClienteResource implements ClienteResourceDocumentation {
     }
 
     @GetMapping("/nome/{nome}")
-    public ResponseEntity<Page<ClienteDTO>> findByNome(@PathVariable String nome, Pageable pageable) {
+    public ResponseEntity<PageResponse<ClienteDTO>> findByNome(@PathVariable String nome, Pageable pageable) {
         Page<ClienteDTO> clienteDTO = clienteService.findClienteByNome(nome, pageable);
-        return ResponseEntity.ok().body(clienteDTO);
+        return ResponseEntity.ok().body(new PageResponse<>(clienteDTO));
     }
 
     @GetMapping()  //{{host}}/clientes?margem=5&qtdQuartos=2&qtdBanheiros=1&qtdVagas=1&metragem=45&valorMaximo=150000
-    public ResponseEntity<Page<ClienteDTO>> findByInteresses(
+    public ResponseEntity<PageResponse<ClienteDTO>> findByInteresses(
         @RequestParam(name = "margem", defaultValue = "0") Integer margem,
         @RequestParam(name = "qtdQuartos", defaultValue = "0") Integer qtdQuartos,
         @RequestParam(name = "qtdBanheiros", defaultValue = "0") Integer qtdBanheiros,
@@ -42,7 +43,7 @@ public class    ClienteResource implements ClienteResourceDocumentation {
         @RequestParam(name = "valorMaximo", defaultValue = "0") Integer valorMaximo,
         Pageable pageable) {
         Page<ClienteDTO> clienteDTO = clienteService.findByInteresses(margem, qtdQuartos, qtdBanheiros, qtdVagas, metragem, valorMaximo, pageable);
-        return ResponseEntity.ok().body(clienteDTO);
+        return ResponseEntity.ok().body(new PageResponse<>(clienteDTO));
     }
 
     @PostMapping()

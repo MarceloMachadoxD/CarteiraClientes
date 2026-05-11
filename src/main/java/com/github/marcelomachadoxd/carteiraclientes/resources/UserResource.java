@@ -1,5 +1,6 @@
 package com.github.marcelomachadoxd.carteiraclientes.resources;
 
+import com.github.marcelomachadoxd.carteiraclientes.dto.PageResponse;
 import com.github.marcelomachadoxd.carteiraclientes.dto.UserDTO;
 import com.github.marcelomachadoxd.carteiraclientes.dto.UserInsertDTO;
 import com.github.marcelomachadoxd.carteiraclientes.resources.documentation.UserResourceDocumentation;
@@ -20,9 +21,9 @@ public class UserResource implements UserResourceDocumentation {
     private UserService userService;
 
     @GetMapping()
-    public ResponseEntity<Page<UserDTO>> findAllPageable(Pageable pageable) {
+    public ResponseEntity<PageResponse<UserDTO>> findAllPageable(Pageable pageable) {
         Page<UserDTO> users = userService.findAllPageable(pageable);
-        return ResponseEntity.ok().body(users);
+        return ResponseEntity.ok().body(new PageResponse<>(users));
     }
 
     @GetMapping("/{id}")
