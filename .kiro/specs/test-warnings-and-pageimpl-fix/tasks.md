@@ -1,6 +1,6 @@
 # Plano de Implementação
 
-- [ ] 1. Escrever teste de exploração da condição do bug (Bugs 1 e 2 — Self-Attach)
+- [x] 1. Escrever teste de exploração da condição do bug (Bugs 1 e 2 — Self-Attach)
   - **Property 1: Bug Condition** - Mockito/Byte Buddy Self-Attach Warning
   - **IMPORTANTE**: Escrever este teste ANTES de implementar a correção
   - **OBJETIVO**: Confirmar que os warnings de self-attach existem no código não corrigido
@@ -14,7 +14,7 @@
   - Marcar a tarefa como concluída quando o teste for escrito, executado e a falha documentada
   - _Requirements: 1.1, 1.2_
 
-- [ ] 2. Escrever testes de preservação (ANTES de implementar a correção)
+- [~] 2. Escrever testes de preservação (ANTES de implementar a correção)
   - **Property 2: Preservation** - Suite de Testes Passa Sem Regressões
   - **IMPORTANTE**: Seguir a metodologia observation-first
   - Observar: executar `mvnw.cmd test` no código não corrigido e registrar o número de testes que passam (`failures=0`, `errors=0`)
@@ -30,7 +30,7 @@
   - Marcar a tarefa como concluída quando os testes forem escritos, executados e passando no código não corrigido
   - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8_
 
-- [ ] 3. Escrever teste de exploração da condição do bug (Bug 3 — Serialização de `PageImpl`)
+- [~] 3. Escrever teste de exploração da condição do bug (Bug 3 — Serialização de `PageImpl`)
   - **Property 1: Bug Condition** - PageImpl Serialization Warning
   - **IMPORTANTE**: Escrever este teste ANTES de implementar a correção do Bug 3
   - **OBJETIVO**: Confirmar que o warning de serialização de `PageImpl` existe no código não corrigido
@@ -46,12 +46,12 @@
 
 - [ ] 4. Correção dos Bugs 1 e 2 — Declarar `mockito-core` como `-javaagent` no `pom.xml`
 
-  - [ ] 4.1 Verificar a versão do `mockito-core` gerenciada pelo BOM
+  - [~] 4.1 Verificar a versão do `mockito-core` gerenciada pelo BOM
     - Executar `mvnw.cmd dependency:tree -Dincludes=org.mockito:mockito-core` para obter a versão exata gerenciada pelo `spring-boot-starter-parent` 4.0.0
     - Anotar a versão encontrada (ex: `5.x.x`) para uso na `<argLine>`
     - _Requirements: 2.1, 2.2_
 
-  - [ ] 4.2 Adicionar `maven-surefire-plugin` com `<argLine>` customizada no `pom.xml`
+  - [~] 4.2 Adicionar `maven-surefire-plugin` com `<argLine>` customizada no `pom.xml`
     - Declarar o `maven-surefire-plugin` explicitamente na seção `<build><plugins>` do `pom.xml`
     - Configurar `<argLine>` concatenando `${argLine}` (agente JaCoCo) com `-javaagent` apontando para o JAR do `mockito-core` no repositório Maven local
     - Usar `${settings.localRepository}` para resolver o caminho do repositório de forma portável
@@ -62,7 +62,7 @@
     - _Preservation: mvnw.cmd test continua com failures=0 e errors=0; mvnw.cmd verify continua com cobertura JaCoCo ≥ 70%_
     - _Requirements: 2.1, 2.2, 3.1, 3.7_
 
-  - [ ] 4.3 Verificar que o teste de exploração (Property 1 — Self-Attach) agora passa
+  - [~] 4.3 Verificar que o teste de exploração (Property 1 — Self-Attach) agora passa
     - **Property 1: Expected Behavior** - Ausência de Warnings de Self-Attach
     - **IMPORTANTE**: Re-executar o MESMO teste da tarefa 1 — NÃO escrever um novo teste
     - O teste da tarefa 1 codifica o comportamento esperado (ausência dos warnings)
@@ -71,7 +71,7 @@
     - **RESULTADO ESPERADO**: Teste PASSA (confirma que os Bugs 1 e 2 estão corrigidos)
     - _Requirements: 2.1, 2.2_
 
-  - [ ] 4.4 Verificar que os testes de preservação ainda passam após a correção dos Bugs 1 e 2
+  - [~] 4.4 Verificar que os testes de preservação ainda passam após a correção dos Bugs 1 e 2
     - **Property 2: Preservation** - Suite de Testes Passa Sem Regressões
     - **IMPORTANTE**: Re-executar os MESMOS testes da tarefa 2 — NÃO escrever novos testes
     - Executar `mvnw.cmd test` e confirmar `failures=0` e `errors=0` com o mesmo número de testes
@@ -80,7 +80,7 @@
 
 - [ ] 5. Correção do Bug 3 — Criar `PageResponse<T>` e atualizar os resources paginados
 
-  - [ ] 5.1 Criar o DTO `PageResponse<T>` no pacote `dto`
+  - [~] 5.1 Criar o DTO `PageResponse<T>` no pacote `dto`
     - Criar o arquivo `src/main/java/com/github/marcelomachadoxd/carteiraclientes/dto/PageResponse.java`
     - Implementar o DTO genérico com os 7 campos obrigatórios: `content` (`List<T>`), `totalElements` (`long`), `totalPages` (`int`), `number` (`int`), `size` (`int`), `first` (`boolean`), `last` (`boolean`)
     - Implementar construtor `PageResponse(Page<T> page)` que mapeia todos os campos a partir do `Page<T>` recebido
@@ -91,7 +91,7 @@
     - _Preservation: dados retornados em content, totalElements, totalPages, number e size são idênticos aos que seriam retornados pelo PageImpl para os mesmos parâmetros_
     - _Requirements: 2.3, 3.3, 3.4, 3.5, 3.8_
 
-  - [ ] 5.2 Atualizar `ClienteResource` para retornar `PageResponse<ClienteDTO>`
+  - [~] 5.2 Atualizar `ClienteResource` para retornar `PageResponse<ClienteDTO>`
     - Substituir `import org.springframework.data.domain.Page` por `import com.github.marcelomachadoxd.carteiraclientes.dto.PageResponse` (manter `Pageable`)
     - Alterar o tipo de retorno de `findByNome` de `ResponseEntity<Page<ClienteDTO>>` para `ResponseEntity<PageResponse<ClienteDTO>>`
     - Alterar o tipo de retorno de `findByInteresses` de `ResponseEntity<Page<ClienteDTO>>` para `ResponseEntity<PageResponse<ClienteDTO>>`
@@ -99,7 +99,7 @@
     - Não alterar `findById`, `insert`, `delete` e `update` (endpoints não paginados)
     - _Requirements: 2.3, 3.3, 3.4_
 
-  - [ ] 5.3 Atualizar `VisitaResource` para retornar `PageResponse<VisitaDTO>`
+  - [~] 5.3 Atualizar `VisitaResource` para retornar `PageResponse<VisitaDTO>`
     - Substituir `import org.springframework.data.domain.Page` por `import com.github.marcelomachadoxd.carteiraclientes.dto.PageResponse` (manter `Pageable`)
     - Alterar o tipo de retorno de `findByResponsavelId` de `ResponseEntity<Page<VisitaDTO>>` para `ResponseEntity<PageResponse<VisitaDTO>>`
     - Alterar o tipo de retorno de `findByClienteId` (path `/cliente/{id}`) de `ResponseEntity<Page<VisitaDTO>>` para `ResponseEntity<PageResponse<VisitaDTO>>`
@@ -108,14 +108,14 @@
     - Não alterar `findById`, `delete` e `insert` (endpoints não paginados ou de escrita)
     - _Requirements: 2.3, 3.5_
 
-  - [ ] 5.4 Atualizar `UserResource` para retornar `PageResponse<UserDTO>`
+  - [~] 5.4 Atualizar `UserResource` para retornar `PageResponse<UserDTO>`
     - Substituir `import org.springframework.data.domain.Page` por `import com.github.marcelomachadoxd.carteiraclientes.dto.PageResponse` (manter `Pageable`)
     - Alterar o tipo de retorno de `findAllPageable` de `ResponseEntity<Page<UserDTO>>` para `ResponseEntity<PageResponse<UserDTO>>`
     - Envolver o resultado do service com `new PageResponse<>(users)` antes de passar ao `ResponseEntity.ok().body(...)`
     - Não alterar `findById`, `delete` e `insert` (endpoints não paginados ou de escrita)
     - _Requirements: 2.3, 3.5_
 
-  - [ ] 5.5 Escrever testes unitários para `PageResponse<T>`
+  - [~] 5.5 Escrever testes unitários para `PageResponse<T>`
     - Testar o construtor com um `Page<T>` mockado verificando que todos os 7 campos são corretamente mapeados
     - Testar `PageResponse<T>` com página vazia: `content` vazio, `totalElements=0`, `totalPages=0`, `first=true`, `last=true`
     - Testar `PageResponse<T>` com página intermediária (não primeira, não última): `first=false`, `last=false`
@@ -123,7 +123,7 @@
     - Usar `tools.jackson.databind.ObjectMapper` (Jackson 3) para serialização/deserialização nos testes
     - _Requirements: 2.3, 3.3, 3.4, 3.5, 3.8_
 
-  - [ ] 5.6 Verificar que o teste de exploração (Property 1 — PageImpl) agora passa
+  - [~] 5.6 Verificar que o teste de exploração (Property 1 — PageImpl) agora passa
     - **Property 1: Expected Behavior** - Estrutura JSON Estável nos Endpoints Paginados
     - **IMPORTANTE**: Re-executar o MESMO teste da tarefa 3 — NÃO escrever um novo teste
     - Chamar `GET /clientes` e verificar que o JSON contém os 7 campos: `content`, `totalElements`, `totalPages`, `number`, `size`, `first`, `last`
@@ -133,7 +133,7 @@
     - **RESULTADO ESPERADO**: Teste PASSA (confirma que o Bug 3 está corrigido)
     - _Requirements: 2.3_
 
-  - [ ] 5.7 Verificar que os testes de preservação ainda passam após a correção do Bug 3
+  - [~] 5.7 Verificar que os testes de preservação ainda passam após a correção do Bug 3
     - **Property 2: Preservation** - Dados e Comportamento Funcional Inalterados
     - **IMPORTANTE**: Re-executar os MESMOS testes da tarefa 2 — NÃO escrever novos testes
     - Verificar que `GET /clientes/id/{id}` continua retornando `200 OK` com `ClienteDTO` correto
@@ -144,7 +144,7 @@
     - **RESULTADO ESPERADO**: Testes PASSAM (confirma que não há regressões)
     - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8_
 
-- [ ] 6. Checkpoint — Garantir que todos os testes passam
+- [~] 6. Checkpoint — Garantir que todos os testes passam
   - Executar `mvnw.cmd test` e confirmar `failures=0` e `errors=0` com o mesmo número de testes que passavam antes da correção
   - Executar `mvnw.cmd verify` e confirmar que a cobertura JaCoCo ≥ 70% continua sendo atingida com o novo `PageResponse<T>` incluído na cobertura
   - Confirmar que nenhum dos três warnings aparece: `"Mockito is currently self-attaching"`, `"terminally deprecated method in java.lang.System"`, `"Serializing PageImpl instances as-is is not supported"`
