@@ -1,5 +1,6 @@
 package com.github.marcelomachadoxd.carteiraclientes.resources.documentation;
 
+import com.github.marcelomachadoxd.carteiraclientes.dto.PageResponse;
 import com.github.marcelomachadoxd.carteiraclientes.dto.VisitaDTO;
 import com.github.marcelomachadoxd.carteiraclientes.resources.exceptions.StandardError;
 import com.github.marcelomachadoxd.carteiraclientes.resources.exceptions.ValidationError;
@@ -11,7 +12,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
@@ -33,24 +33,24 @@ public interface VisitaResourceDocumentation {
         description = "Retorna uma lista paginada de visitas realizadas pelo corretor responsável informado."
     )
     @ApiResponse(responseCode = "200", description = "Lista de visitas retornada com sucesso",
-        content = @Content(schema = @Schema(implementation = Page.class)))
-    ResponseEntity<Page<VisitaDTO>> findByResponsavelId(Long id, Pageable pageable);
+        content = @Content(schema = @Schema(implementation = PageResponse.class)))
+    ResponseEntity<PageResponse<VisitaDTO>> findByResponsavelId(Long id, Pageable pageable);
 
     @Operation(
         summary = "Lista visitas por cliente",
         description = "Retorna uma lista paginada de visitas realizadas para o cliente informado."
     )
     @ApiResponse(responseCode = "200", description = "Lista de visitas retornada com sucesso",
-        content = @Content(schema = @Schema(implementation = Page.class)))
-    ResponseEntity<Page<VisitaDTO>> findByClienteId(Long id, Pageable pageable);
+        content = @Content(schema = @Schema(implementation = PageResponse.class)))
+    ResponseEntity<PageResponse<VisitaDTO>> findByClienteId(Long id, Pageable pageable);
 
     @Operation(
         summary = "Filtra visitas por cliente e corretor",
         description = "Retorna uma lista paginada de visitas filtradas simultaneamente por cliente e corretor responsável (AND lógico). Ambos os filtros são aplicados ao mesmo tempo."
     )
     @ApiResponse(responseCode = "200", description = "Lista de visitas filtrada com sucesso",
-        content = @Content(schema = @Schema(implementation = Page.class)))
-    ResponseEntity<Page<VisitaDTO>> findByClienteId(
+        content = @Content(schema = @Schema(implementation = PageResponse.class)))
+    ResponseEntity<PageResponse<VisitaDTO>> findByClienteId(
         @Parameter(
             name = "cliId",
             description = "ID do cliente para filtrar as visitas. Aplicado simultaneamente com respId (AND lógico).",

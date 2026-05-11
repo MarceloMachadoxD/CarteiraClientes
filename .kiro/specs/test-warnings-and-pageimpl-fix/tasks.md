@@ -99,7 +99,7 @@
     - Não alterar `findById`, `insert`, `delete` e `update` (endpoints não paginados)
     - _Requirements: 2.3, 3.3, 3.4_
 
-  - [~] 5.3 Atualizar `VisitaResource` para retornar `PageResponse<VisitaDTO>`
+  - [x] 5.3 Atualizar `VisitaResource` para retornar `PageResponse<VisitaDTO>`
     - Substituir `import org.springframework.data.domain.Page` por `import com.github.marcelomachadoxd.carteiraclientes.dto.PageResponse` (manter `Pageable`)
     - Alterar o tipo de retorno de `findByResponsavelId` de `ResponseEntity<Page<VisitaDTO>>` para `ResponseEntity<PageResponse<VisitaDTO>>`
     - Alterar o tipo de retorno de `findByClienteId` (path `/cliente/{id}`) de `ResponseEntity<Page<VisitaDTO>>` para `ResponseEntity<PageResponse<VisitaDTO>>`
