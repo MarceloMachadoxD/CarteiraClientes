@@ -115,7 +115,7 @@
     - Não alterar `findById`, `delete` e `insert` (endpoints não paginados ou de escrita)
     - _Requirements: 2.3, 3.5_
 
-  - [~] 5.5 Escrever testes unitários para `PageResponse<T>`
+  - [x] 5.5 Escrever testes unitários para `PageResponse<T>`
     - Testar o construtor com um `Page<T>` mockado verificando que todos os 7 campos são corretamente mapeados
     - Testar `PageResponse<T>` com página vazia: `content` vazio, `totalElements=0`, `totalPages=0`, `first=true`, `last=true`
     - Testar `PageResponse<T>` com página intermediária (não primeira, não última): `first=false`, `last=false`
