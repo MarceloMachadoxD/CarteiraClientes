@@ -125,7 +125,7 @@ Enriquecer a documentação Swagger da API CarteiraClientes adotando duas camada
     - Usar os IDs do seed data: `Visita id=1`, `User id=2`
     - _Requisitos: 1.10, 1.11, 7.1, 7.3_
 
-- [~] 8. Checkpoint final — Verificar build completo e cobertura JaCoCo
+- [x] 8. Checkpoint final — Verificar build completo e cobertura JaCoCo
   - Garantir que `mvnw.cmd verify` retorna `BUILD SUCCESS` e cobertura JaCoCo ≥ 70%, ask the user if questions arise.
 
 ## Notas
